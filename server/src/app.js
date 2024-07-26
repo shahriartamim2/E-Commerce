@@ -7,8 +7,8 @@ import { rateLimit } from "express-rate-limit";
 const app = express();
 
 const rateLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  windowMs: 1 * 60 * 1000, // 1 minutes into mili second
+  max: 6, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
   message: "Too many requests from this IP, please try again after 5 minutes",
  
 });
@@ -35,7 +35,6 @@ app.use((err, req, res, next) => {
         message: err.message || "Internal server error",
     })
 });
-
 
 
 export default app
