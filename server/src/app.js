@@ -4,13 +4,14 @@ import xssClean from "xss-clean";
 import { rateLimit } from "express-rate-limit";
 import seedRouter from "../routes/seed.route.js";
 import userRouter from "../routes/user.route.js";
+import { errorHandler } from "../controllers/responseHandler.controller.js";
 
 const app = express();
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 6,
-  message: "Too many requests from this IP, please try again after 5 minutes",
+  message: "Too many requests from this IP, please try again after 2 minutes",
 });
 
 app.use(rateLimiter);
@@ -34,11 +35,8 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const status = err.status || 500;
-  res.status(status).json({
-    success: false,
-    message: err.message || "Internal server error",
-  });
+  
+  errorHandler(res, {statusCode: err.status, message: err.message })
 });
 
 export default app;
