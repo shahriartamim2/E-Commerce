@@ -25,6 +25,9 @@ const getUsers = async (req,res,next) =>{
         const users = await User.find(filter,options).limit(limit).skip((page-1)*limit);
         const count = await User.find(filter).countDocuments();
 
+        if(!users){
+            return createError(404,"Users not found");
+        }
 
         res.status(200).send({
           message: "Users retrieved successfully",
