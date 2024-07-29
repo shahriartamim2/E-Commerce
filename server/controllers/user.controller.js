@@ -1,6 +1,7 @@
 import { errorHandler, successHandler } from "./responseHandler.controller.js";
 import User from "../models/user.model.js";
 import createError from "http-errors";
+import mongoose from "mongoose";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -47,4 +48,32 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-export { getUsers };
+const getUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const options = { password: 0 };
+
+    const user = await User.findById(id, options)
+      
+
+    if (!user) {
+      return errorHandler(res, { statusCode: 404, message: "User not found" });
+    } else {
+      return successHandler(res, {
+        statusCode: 200,
+        message: "User found successfully",
+        payload: {
+          user
+        },
+      });
+    }
+  } catch (error) {
+    if(error instanceof mongoose.Error){
+      return errorHandler(res, { statusCode: 400, message: "Invalid user ID" });
+    }
+    next(error);
+  }
+};
+
+export { getUsers, getUser };
