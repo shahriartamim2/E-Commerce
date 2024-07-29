@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";
+import { getUsers } from "../controllers/user.controller.js";
 import Router from "express";   
 
 const userRouter = Router();

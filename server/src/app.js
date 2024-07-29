@@ -3,6 +3,7 @@ import createError from "http-errors";
 import xssClean from "xss-clean";
 import { rateLimit } from "express-rate-limit";
 import seedRouter from "../routes/seed.route.js";
+import userRouter from "../routes/user.route.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api/seed", seedRouter);
+app.use("/api",userRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
