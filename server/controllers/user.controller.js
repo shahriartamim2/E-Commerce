@@ -3,6 +3,7 @@ import User from "../models/user.model.js";
 import createError from "http-errors";
 import mongoose from "mongoose";
 import { findWithId } from "../services/findWithId.js";
+import fs from "fs";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -71,4 +72,36 @@ const getUser = async (req, res, next) => {
   }
 };
 
-export { getUsers, getUser };
+const deleteUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const options = { password: 0 };
+    const user = await findWithId(id, options);
+
+    const userImagePath = user.image;
+    fs.access(userImagePath, (err)=>{
+      if(err){
+        console.error("Image not found")
+      }else{
+        fs.unlink(userImagePath,(err)=>{
+          if(err) throw err;
+          console.log("Image Deleted Successfully")
+        })
+      }
+    });
+
+    await User.findByIdAndDelete({ _id: id ,
+      isAdmin:false
+    });
+
+      return successHandler(res, {
+        statusCode: 200,
+        message: "User deleted successfully",
+      });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export { getUsers, getUser, deleteUser };
