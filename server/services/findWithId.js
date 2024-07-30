@@ -3,20 +3,20 @@ import { errorHandler } from "../controllers/responseHandler.controller.js";
 import mongoose from "mongoose";
 import createError from "http-errors";
 
-const findUserById = async (id) => {
+const findWithId = async (id, options={}) => {
   try {
-    const options = { password: 0 };
-    const user = await User.findById(id, options);
+    
+    const item = await User.findById(id, options);
 
-    if (!user) {
-      throw createError(500, "User not found")
+    if (!item) {
+      throw createError(500, "Item not found with this ID")
     }
-    return user;
+    return item;
   } catch (error) {
     if (error instanceof mongoose.Error) {
-      throw createError(404, "invalid User Id")
+      throw createError(404, "invalid item Id")
     }
     throw error;
   }
 };
-export { findUserById };
+export { findWithId };

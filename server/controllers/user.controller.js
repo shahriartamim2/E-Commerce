@@ -2,7 +2,7 @@ import { errorHandler, successHandler } from "./responseHandler.controller.js";
 import User from "../models/user.model.js";
 import createError from "http-errors";
 import mongoose from "mongoose";
-import { findUserById } from "../services/findUser.js";
+import { findWithId } from "../services/findWithId.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -52,7 +52,8 @@ const getUsers = async (req, res, next) => {
 const getUser = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const user = await findUserById(id);
+    const options = { password: 0 };
+    const user = await findWithId(id, options);
       
     if (!user) {
       return errorHandler(res, { statusCode: 404, message: "User not found" });
