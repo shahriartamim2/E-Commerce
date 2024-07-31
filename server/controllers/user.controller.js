@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import createError from "http-errors";
 import mongoose from "mongoose";
 import { findWithId } from "../services/findWithId.js";
-import fs from "fs";
+import deleteImage from "../helper/deleteImage.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -55,7 +55,7 @@ const getUserById = async (req, res, next) => {
     const id = req.params.id;
     const options = { password: 0 };
     const user = await findWithId(User, id, options);
-
+      
     if (!user) {
       return errorHandler(res, { statusCode: 404, message: "User not found" });
     } else {
@@ -63,7 +63,7 @@ const getUserById = async (req, res, next) => {
         statusCode: 200,
         message: "User found successfully",
         payload: {
-          user,
+          user
         },
       });
     }
@@ -79,26 +79,22 @@ const deleteUserById = async (req, res, next) => {
     const user = await findWithId(User, id, options);
 
     const userImagePath = user.image;
-    fs.access(userImagePath, (err) => {
-      if (err) {
-        console.error("Image not found");
-      } else {
-        fs.unlink(userImagePath, (err) => {
-          if (err) throw err;
-          console.log("Image Deleted Successfully");
-        });
-      }
+
+    deleteImage(userImagePath);
+
+    await User.findByIdAndDelete({ _id: id ,
+      isAdmin:false
     });
 
-    await User.findByIdAndDelete({ _id: id, isAdmin: false });
-
-    return successHandler(res, {
-      statusCode: 200,
-      message: "User deleted successfully",
-    });
+      return successHandler(res, {
+        statusCode: 200,
+        message: "User deleted successfully",
+        userImagePath
+      });
   } catch (error) {
     next(error);
   }
 };
+
 
 export { getUsers, getUserById, deleteUserById };
