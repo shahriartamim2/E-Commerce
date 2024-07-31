@@ -6,4 +6,6 @@ const mongoUrl =
   "mongodb+srv://shahriartamim:shahriartamim@ecommerce.mvpegea.mongodb.net/?retryWrites=true&w=majority&appName=Ecommerce";
 const defaultUserImage = process.env.DEFAULT_USER_IMAGE || "../public/images/users/default.png";
 
-export {serverPort, mongoUrl,defaultUserImage};
+const jwtActivationKey = process.env.JWT_ACTIVATION_KEY || "activation";
+
+export { serverPort, mongoUrl, defaultUserImage, jwtActivationKey };

@@ -4,6 +4,8 @@ import createError from "http-errors";
 import mongoose from "mongoose";
 import { findWithId } from "../services/findWithId.js";
 import deleteImage from "../helper/deleteImage.js";
+import { generateToken } from "../helper/jsonwebtoken.js";
+import { jwtActivationKey } from "../src/secret.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -112,11 +114,18 @@ const processRegister = async (req, res, next) => {
       throw createError(409,"User already exists. Please login");
     }
 
+    const token = generateToken(
+      { name, email, password, phone, address },
+      jwtActivationKey,
+      "20m"
+    );
+
     return successHandler(res, {
       statusCode: 200,
       message: "User created successfully",
       payload:{
-        user
+        user,
+        token
       }
     });
   } catch (error) {
