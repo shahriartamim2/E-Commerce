@@ -89,12 +89,40 @@ const deleteUserById = async (req, res, next) => {
       return successHandler(res, {
         statusCode: 200,
         message: "User deleted successfully",
-        userImagePath
       });
   } catch (error) {
     next(error);
   }
 };
 
+const processRegister = async (req, res, next) => {
+  try {
+    const {name, email, password, phone, address } = req.body;
 
-export { getUsers, getUserById, deleteUserById };
+    const user = new User({
+      name,
+      email,
+      password,
+      phone,
+      address,
+    });
+
+    const userExists = await User.findOne({email:email});
+    if(userExists){
+      throw createError(409,"User already exists. Please login");
+    }
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "User created successfully",
+      payload:{
+        user
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export { getUsers, getUserById, deleteUserById , processRegister};
