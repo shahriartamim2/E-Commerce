@@ -1,20 +1,17 @@
-import User from "../models/user.model.js";
-import { errorHandler } from "../controllers/responseHandler.controller.js";
 import mongoose from "mongoose";
 import createError from "http-errors";
 
-const findWithId = async (id, options={}) => {
+const findWithId = async (Model, id, options = {}) => {
   try {
-    
-    const item = await User.findById(id, options);
+    const item = await Model.findById(id, options);
 
     if (!item) {
-      throw createError(500, "Item not found with this ID")
+      throw createError(500, `${Model.modelName} not found with this ID`);
     }
     return item;
   } catch (error) {
     if (error instanceof mongoose.Error) {
-      throw createError(404, "invalid item Id")
+      throw createError(404, "invalid item Id");
     }
     throw error;
   }
