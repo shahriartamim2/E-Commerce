@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
 import { defaultUserImage } from "../src/secret.js";

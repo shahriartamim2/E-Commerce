@@ -5,7 +5,8 @@ import mongoose from "mongoose";
 import { findWithId } from "../services/findWithId.js";
 import deleteImage from "../helper/deleteImage.js";
 import { generateToken } from "../helper/jsonwebtoken.js";
-import { jwtActivationKey } from "../src/secret.js";
+import { clientUrl, jwtActivationKey } from "../src/secret.js";
+import sendEmailWithNodeMailer from "../helper/email.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -119,10 +120,27 @@ const processRegister = async (req, res, next) => {
       jwtActivationKey,
       "20m"
     );
+    const emailData = {
+      email,
+      subject: "Account Activation Email",
+      html: `
+      <h2>Hello ${name}</h2>
+      <p>Please click the link below to <a href="${clientUrl}/api/users/activate/${token}">activate your account</a></p>
+      `,
+    };
+
+    try {
+      await sendEmailWithNodeMailer(emailData);
+      console.log("Email sent");
+    } catch (error) {
+      console.log(error);
+      console.log("Email not sent");
+      throw createError(500, "Email not sent");
+    }
 
     return successHandler(res, {
       statusCode: 200,
-      message: "User created successfully",
+      message: `Please check your ${emailData.email} to activate your account`,
       payload:{
         user,
         token
