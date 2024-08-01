@@ -1,4 +1,5 @@
 import {
+  activeUserAccount,
   deleteUserById,
   getUserById,
   getUsers,
@@ -12,5 +13,6 @@ userRouter.get("/users", getUsers);
 userRouter.get("/user/:id", getUserById);
 userRouter.delete("/user/:id", deleteUserById);
 userRouter.post("/user/process-register", processRegister);
+userRouter.post("/user/verify", activeUserAccount);
 
 export default userRouter;
