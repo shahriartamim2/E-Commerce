@@ -120,6 +120,7 @@ const processRegister = async (req, res, next) => {
       jwtActivationKey,
       "20m"
     );
+
     const emailData = {
       email,
       subject: "Account Activation Email",
@@ -133,8 +134,7 @@ const processRegister = async (req, res, next) => {
       await sendEmailWithNodeMailer(emailData);
       console.log("Email sent");
     } catch (error) {
-      console.log(error);
-      console.log("Email not sent");
+      
       throw createError(500, "Email not sent");
     }
 
@@ -147,6 +147,7 @@ const processRegister = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
