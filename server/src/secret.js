@@ -14,8 +14,6 @@ const smtpPass = process.env.SMTP_PASS || "";
 
 const clientUrl = process.env.CLIENT_URL;
 
-const uploadDir = process.env.UPLOAD_DIR;
-
 export {
   smtpUser,
   smtpPass,
@@ -23,6 +21,5 @@ export {
   mongoUrl,
   defaultUserImage,
   jwtActivationKey,
-  clientUrl,
-  uploadDir,
+  clientUrl
 };
