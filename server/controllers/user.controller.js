@@ -129,7 +129,7 @@ const processRegister = async (req, res, next) => {
     };
 
     try {
-      await sendEmailWithNodeMailer(emailData);
+      // await sendEmailWithNodeMailer(emailData);
       console.log("Email sent");
     } catch (error) {
       throw createError(500, "Email not sent");
