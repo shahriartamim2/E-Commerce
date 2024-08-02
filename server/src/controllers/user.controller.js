@@ -2,11 +2,11 @@ import { errorHandler, successHandler } from "./responseHandler.controller.js";
 import User from "../models/user.model.js";
 import createError from "http-errors";
 import { findWithId } from "../services/findWithId.js";
-import deleteImage from "../helper/deleteImage.js";
-import { generateToken } from "../helper/jsonwebtoken.js";
-import { clientUrl, jwtActivationKey } from "../src/secret.js";
-import sendEmailWithNodeMailer from "../helper/email.js";
+import  deleteImage from "../../src/helper/deleteImage.js";
+import { generateToken } from "../../src/helper/jsonwebtoken.js";
+import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
+import { clientUrl, jwtActivationKey } from "../secret.js";
 
 const getUsers = async (req, res, next) => {
   try {

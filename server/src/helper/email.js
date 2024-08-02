@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { smtpPass, smtpUser } from '../src/secret.js';
+import { smtpPass, smtpUser } from '../secret.js';
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

@@ -1,5 +1,5 @@
 import User from "../models/user.model.js"
-import data from "../src/data.js"
+import data from "../data.js"
 const seedUsers = async (req, res) => {
   try {
     await User.deleteMany({});  

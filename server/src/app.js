@@ -2,9 +2,9 @@ import express from "express";
 import createError from "http-errors";
 import xssClean from "xss-clean";
 import { rateLimit } from "express-rate-limit";
-import seedRouter from "../routes/seed.route.js";
-import userRouter from "../routes/user.route.js";
-import { errorHandler } from "../controllers/responseHandler.controller.js";
+import seedRouter from "../src/routes/seed.route.js";
+import userRouter from "../src/routes/user.route.js";
+import { errorHandler } from "../src/controllers/responseHandler.controller.js";
 
 const app = express();
 

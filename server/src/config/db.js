@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { mongoUrl } from '../src/secret.js';
+import { mongoUrl } from '../secret.js';
 
 
 const connectDB = async () => {
