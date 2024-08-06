@@ -34,7 +34,14 @@ const validateUserRegistration = [
     .withMessage("Phone is required")
     .isLength({ min: 11, max: 11 })
     .withMessage("Phone must be 11 characters"),
-  body("image").optional().isString().withMessage("Image must be a string"),
+  body('image')
+    .custom((value, { req }) => {
+      if (req.file) {
+        return true;
+      }
+      throw new Error('Image is required');
+    }), 
+    
 ];
 
 export { validateUserRegistration };

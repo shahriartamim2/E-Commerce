@@ -100,13 +100,7 @@ const processRegister = async (req, res, next) => {
   try {
     const { name, email, password, phone, address } = req.body;
 
-    const user = {
-      name,
-      email,
-      password,
-      phone,
-      address,
-    };
+    const imageBufferString = req.file.buffer.toString("base64");
 
     const userExists = await User.findOne({ email: email });
     if (userExists) {
@@ -114,7 +108,7 @@ const processRegister = async (req, res, next) => {
     }
 
     const token = generateToken(
-      { name, email, password, phone, address },
+      { name, email, password, phone, address, image : imageBufferString },
       jwtActivationKey,
       "20m"
     );
@@ -139,7 +133,6 @@ const processRegister = async (req, res, next) => {
       statusCode: 200,
       message: `Please check your ${emailData.email} to activate your account`,
       payload: {
-        user,
         token,
       },
     });
