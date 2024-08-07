@@ -13,17 +13,17 @@ import { runValidation } from "../validator/index.js";
 
 const userRouter = Router();
 
-userRouter.get("/users", getUsers);
-userRouter.get("/user/:id", getUserById);
-userRouter.delete("/user/:id", deleteUserById);
+userRouter.get("/", getUsers);
+userRouter.get("/:id", getUserById);
+userRouter.delete("/:id", deleteUserById);
 userRouter.post(
-  "/user/process-register",
+  "/process-register",
   upload.single("image"),
   validateUserRegistration,
   runValidation,
   processRegister
 );
-userRouter.post("/user/activate", activeUserAccount);
-userRouter.put("/user/:id", upload.single("image"), updateUserById);
+userRouter.post("/activate", activeUserAccount);
+userRouter.put("/:id", upload.single("image"), updateUserById);
 
 export default userRouter;

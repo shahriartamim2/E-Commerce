@@ -5,6 +5,8 @@ import { rateLimit } from "express-rate-limit";
 import seedRouter from "../src/routes/seed.route.js";
 import userRouter from "../src/routes/user.route.js";
 import { errorHandler } from "../src/controllers/responseHandler.controller.js";
+import authRouter from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -14,6 +16,7 @@ const rateLimiter = rateLimit({
   message: "Too many requests from this IP, please try again after 2 minutes",
 });
 
+app.use(cookieParser());
 app.use(rateLimiter);
 app.use(xssClean());
 app.use(express.json());
@@ -21,7 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api/", seedRouter);
-app.use("/api/",userRouter);
+app.use("/api/users",userRouter);
+app.use("/api/auth", authRouter);
 
 
 app.get("/", (req, res) => {
