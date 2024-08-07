@@ -194,7 +194,6 @@ const updateUserById = async (req, res, next) => {
     }
 
     const image = req.file;
-    console.log(image);
     if(image){
       if (image.mimetype !== "image/png" && image.mimetype !== "image/jpeg") {
         throw createError(400, "Please upload an image of type PNG or JPEG");
@@ -208,7 +207,7 @@ const updateUserById = async (req, res, next) => {
       throw createError(400, "Please upload an image");
     }
     
-    const updatedUser = await User.findByIdAndUpdate(id, updates, updateOptions);
+    const updatedUser = await User.findByIdAndUpdate(id, updates, updateOptions).select('-password');
 
     return successHandler(res, {
       statusCode: 200,
