@@ -4,6 +4,7 @@ import {
   getUserById,
   getUsers,
   processRegister,
+  updateUserById,
 } from "../controllers/user.controller.js";
 import Router from "express";
 import upload from "../middlewares/uploadFile.js";
@@ -23,5 +24,6 @@ userRouter.post(
   processRegister
 );
 userRouter.post("/user/verify", activeUserAccount);
+userRouter.put("/user/:id", upload.single("image"), updateUserById);
 
 export default userRouter;
