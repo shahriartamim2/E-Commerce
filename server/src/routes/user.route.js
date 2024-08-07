@@ -23,7 +23,7 @@ userRouter.post(
   runValidation,
   processRegister
 );
-userRouter.post("/user/verify", activeUserAccount);
+userRouter.post("/user/activate", activeUserAccount);
 userRouter.put("/user/:id", upload.single("image"), updateUserById);
 
 export default userRouter;
