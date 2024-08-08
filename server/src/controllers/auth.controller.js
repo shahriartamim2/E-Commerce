@@ -26,13 +26,13 @@ const handleLogin = async (req, res, next) => {
     }
 
     // jwt token in cookis 
-    const accessToken = generateToken({email}, jwtAccessKey, '15m');
+    const accessToken = generateToken({id: user._id}, jwtAccessKey, '15m');
 
-    res.cookie('access_token', accessToken, {
-        maxAge: 15*60*1000,
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
+    res.cookie("accessToken", accessToken, {
+      maxAge: 15 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
     });
 
 
