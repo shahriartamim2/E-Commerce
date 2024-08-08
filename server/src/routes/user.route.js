@@ -14,9 +14,7 @@ import { isLoggedIn } from "../middlewares/auth.js";
 
 const userRouter = Router();
 
-userRouter.get("/", getUsers);
-userRouter.get("/:id",isLoggedIn, getUserById);
-userRouter.delete("/:id", deleteUserById);
+
 userRouter.post(
   "/process-register",
   upload.single("image"),
@@ -25,6 +23,11 @@ userRouter.post(
   processRegister
 );
 userRouter.post("/activate", activeUserAccount);
-userRouter.put("/:id", upload.single("image"), updateUserById);
+userRouter.get("/", isLoggedIn, getUsers);
+userRouter.get("/:id",isLoggedIn, getUserById);
+userRouter.put("/:id", isLoggedIn, upload.single("image"), updateUserById);
+userRouter.delete("/:id", isLoggedIn, deleteUserById);
+
+
 
 export default userRouter;
