@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { generateToken } from "../helper/jsonwebtoken.js";
 import { jwtAccessKey } from "../secret.js";
 
-const userLogin = async (req, res, next) => {
+const handleLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     // check if user exists with this emails  
@@ -38,7 +38,7 @@ const userLogin = async (req, res, next) => {
 
     return successHandler(res, {
       statusCode: 200,
-      message: "Succesfully logged in",
+      message: "User logged in Succesfully",
       payload: {
         user: {
           name: user.name,
@@ -53,4 +53,20 @@ const userLogin = async (req, res, next) => {
   }
 };
 
-export { userLogin };
+
+const handleLogout = async (req, res, next) => {
+  try {
+    res.clearCookie('access_token');
+
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "USer logged out Succesfully",
+      payload: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { handleLogin , handleLogout};
