@@ -4,12 +4,12 @@ import { jwtAccessKey } from '../secret.js';
 
 const isLoggedIn = async (req,res,next)=>{
     try {
-        const token = req.cookies.accessToken;
-        if(!token){
-            throw CreateError(401, "Access token not found. Please Login first");
+        const accessToken = req.cookies.accessToken;
+        if (!accessToken) {
+          throw CreateError(401, "Access token not found. Please Login first");
         }
         // verify token
-        const decoded = jwt.verify(token, jwtAccessKey);
+        const decoded = jwt.verify(accessToken, jwtAccessKey);
         if (!decoded) {
           throw CreateError(401, "Invalid token. Please login first");
         }
@@ -20,5 +20,17 @@ const isLoggedIn = async (req,res,next)=>{
         
     }
 }
+const isLoggedOut = async (req,res,next)=>{
+    try {
+        const accessToken = req.cookies.accessToken;
+        if (accessToken) {
+          throw CreateError(401, "You are already logged in");
+        }
+        next();
+    } catch (error) {
+        next(error);
+        
+    }
+}
 
-export {isLoggedIn};
+export {isLoggedIn, isLoggedOut};
