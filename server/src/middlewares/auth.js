@@ -13,13 +13,14 @@ const isLoggedIn = async (req,res,next)=>{
         if (!decoded) {
           throw CreateError(401, "Invalid token. Please login first");
         }
-        req.body.userId = decoded.id;
+        req.body.user = decoded;
         next();
     } catch (error) {
         next(error);
         
     }
 }
+
 const isLoggedOut = async (req,res,next)=>{
     try {
         const accessToken = req.cookies.accessToken;
@@ -41,4 +42,17 @@ const isLoggedOut = async (req,res,next)=>{
     }
 }
 
-export {isLoggedIn, isLoggedOut};
+const isAdmin = async (req, res, next) => {
+  try {
+   
+    if(!req.body.user.isAdmin){
+        throw CreateError(403, "You are not authorized to access this route");
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export {isLoggedIn, isLoggedOut, isAdmin};

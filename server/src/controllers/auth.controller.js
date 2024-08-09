@@ -26,7 +26,17 @@ const handleLogin = async (req, res, next) => {
     }
 
     // jwt token in cookis 
-    const accessToken = generateToken({id: user._id}, jwtAccessKey, '15m');
+    const userInToken ={
+        id:user._id,
+        name:user.name,
+        email:user.email,
+        password:user.password,
+        isAdmin:user.isAdmin,
+        isBanned:user.isBanned,
+        
+    }
+    const accessToken = generateToken(userInToken, jwtAccessKey, '15m');
+
 
     res.cookie("accessToken", accessToken, {
       maxAge: 15 * 60 * 1000,
@@ -40,12 +50,7 @@ const handleLogin = async (req, res, next) => {
       statusCode: 200,
       message: "User logged in Succesfully",
       payload: {
-        user: {
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          isBanned: user.isBanned,
-        },
+        
       },
     });
   } catch (error) {
@@ -57,7 +62,6 @@ const handleLogin = async (req, res, next) => {
 const handleLogout = async (req, res, next) => {
   try {
     res.clearCookie('accessToken');
-
 
     return successHandler(res, {
       statusCode: 200,

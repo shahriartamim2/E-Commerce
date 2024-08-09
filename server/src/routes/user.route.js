@@ -10,7 +10,7 @@ import Router from "express";
 import upload from "../middlewares/uploadFile.js";
 import { validateUserRegistration } from "../validator/auth.js";
 import { runValidation } from "../validator/index.js";
-import { isLoggedIn, isLoggedOut } from "../middlewares/auth.js";
+import { isAdmin, isLoggedIn, isLoggedOut } from "../middlewares/auth.js";
 
 const userRouter = Router();
 
@@ -24,7 +24,7 @@ userRouter.post(
   processRegister
 );
 userRouter.post("/activate",isLoggedOut, activeUserAccount);
-userRouter.get("/", isLoggedIn, getUsers);
+userRouter.get("/", isLoggedIn,isAdmin, getUsers);
 userRouter.get("/:id",isLoggedIn, getUserById);
 userRouter.put("/:id", isLoggedIn, upload.single("image"), updateUserById);
 userRouter.delete("/:id", isLoggedIn, deleteUserById);

@@ -6,7 +6,7 @@ import { isLoggedIn, isLoggedOut } from "../middlewares/auth.js";
 
 const authRouter = Router();
 
-authRouter.post("/login",isLoggedOut,  handleLogin);
+authRouter.post("/login",isLoggedOut, handleLogin);
 authRouter.post("/logout",isLoggedIn, handleLogout);
 
 export default authRouter;
