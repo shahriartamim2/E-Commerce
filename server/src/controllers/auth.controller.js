@@ -12,10 +12,10 @@ const handleLogin = async (req, res, next) => {
     // check if user exists with this emails  
     const user = await User.findOne({ email: email });
     if(!user){
-        throw createError(404,'User does not exists with this email. Please login first');
+        throw createError(404,'User does not exists with this email. Please register first');
     }
     //compare password
-    const isPasswordMatch = bcrypt.compare(password, user.password);
+    const isPasswordMatch = bcrypt.compareSync(password, user.password);
     if(!isPasswordMatch){
         throw createError(400,'Invalid credentials');
     }
@@ -37,7 +37,7 @@ const handleLogin = async (req, res, next) => {
     }
     const accessToken = generateToken(userInToken, jwtAccessKey, '15m');
 
-
+       
     res.cookie("accessToken", accessToken, {
       maxAge: 15 * 60 * 1000,
       httpOnly: true,
@@ -45,12 +45,15 @@ const handleLogin = async (req, res, next) => {
       sameSite: "none",
     });
 
+ const userWithoutPassword = await User.findOne({ email: email }).select(
+   "-password"
+ );
 
     return successHandler(res, {
       statusCode: 200,
       message: "User logged in Succesfully",
       payload: {
-        
+        userWithoutPassword
       },
     });
   } catch (error) {
