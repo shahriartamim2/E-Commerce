@@ -24,7 +24,15 @@ const isLoggedOut = async (req,res,next)=>{
     try {
         const accessToken = req.cookies.accessToken;
         if (accessToken) {
-          throw CreateError(401, "You are already logged in");
+            try {
+                const decoded = jwt.verify(accessToken, jwtAccessKey);
+                if(decoded){
+                    throw CreateError(401, "You are already logged in");
+                }
+            } catch (error) {
+                throw error;
+            }
+
         }
         next();
     } catch (error) {
