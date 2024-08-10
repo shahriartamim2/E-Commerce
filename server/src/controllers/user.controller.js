@@ -8,47 +8,26 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
+import { findUser } from "../services/userService.js";
 
 const getUsers = async (req, res, next) => {
   try {
     const search = req.query.search || "";
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
-    const searchRegExp = new RegExp(".*" + search + ".*", "i");
-    const filter = {
-      isAdmin: { $ne: true },
-      $or: [
-        { name: { $regex: searchRegExp } },
-        { email: { $regex: searchRegExp } },
-        { phone: { $regex: searchRegExp } },
-      ],
-    };
+    
+    const {count, users, pagination} = await findUser(search, page, limit);
 
-    const options = { password: 0 };
-
-    const users = await User.find(filter, options)
-      .limit(limit)
-      .skip((page - 1) * limit);
-    const count = await User.find(filter).countDocuments();
-
-    if (count === 0) {
-      return errorHandler(res, { statusCode: 404, message: "Users not found" });
-    } else {
       return successHandler(res, {
         statusCode: 200,
         message: "Users retrieved successfully",
         payload: {
           found: count,
-          data: users,
-          pagination: {
-            totalPage: Math.ceil(count / limit),
-            currentPage: page,
-            previousPage: page - 1 > 0 ? page - 1 : null,
-            nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null,
-          },
+          users: users,
+          pagination: pagination
         },
       });
-    }
+    
   } catch (error) {
     next(error);
   }
