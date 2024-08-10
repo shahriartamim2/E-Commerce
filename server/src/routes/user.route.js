@@ -1,11 +1,10 @@
 import {
   activeUserAccount,
-  banUserById,
   deleteUserById,
   getUserById,
   getUsers,
+  handleUserStatusById,
   processRegister,
-  unbanUserById,
   updateUserById,
 } from "../controllers/user.controller.js";
 import Router from "express";
@@ -30,8 +29,7 @@ userRouter.get("/", isLoggedIn,isAdmin, getUsers);
 userRouter.get("/:id",isLoggedIn, getUserById);
 userRouter.put("/:id", isLoggedIn, upload.single("image"), updateUserById);
 userRouter.delete("/:id", isLoggedIn, deleteUserById);
-userRouter.put("/ban-user/:id", isLoggedIn, isAdmin, banUserById);
-userRouter.put("/unban-user/:id", isLoggedIn, isAdmin, unbanUserById);
+userRouter.put("/manage-user-status/:id", isLoggedIn, isAdmin, handleUserStatusById);
 
 
 

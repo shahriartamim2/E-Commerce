@@ -7,6 +7,7 @@ import { generateToken } from "../../src/helper/jsonwebtoken.js";
 import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey } from "../secret.js";
+import manageUserStatus from "../services/manageUserStatus.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -222,21 +223,18 @@ const updateUserById = async (req, res, next) => {
   }
 };
 
-const banUserById = async (req, res, next) => {
+const handleUserStatusById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const updateOptions = {new:true, runValidations:true, context:'query'};
-    await findWithId(User, id);
+    const action = req.body.action;
 
-    const updates = {isBanned: true};
-
-    const bannedUser = await User.findByIdAndUpdate(id, updates, updateOptions).select('-password');
+    const updatedStatus = await manageUserStatus(id, action, next);
 
     return successHandler(res, {
       statusCode: 200,
-      message: "User was banned successfully",
+      message: updatedStatus.successMessage,
       payload: {
-        bannedUser: bannedUser,
+        bannedUser: updatedStatus.userStatus,
       },
     });
   } catch (error) {
@@ -244,27 +242,7 @@ const banUserById = async (req, res, next) => {
   }
 };
 
-const unbanUserById = async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const updateOptions = {new:true, runValidations:true, context:'query'};
-    await findWithId(User, id);
 
-    const updates = {isBanned: false};
-
-    const unbannedUser = await User.findByIdAndUpdate(id, updates, updateOptions).select('-password');
-
-    return successHandler(res, {
-      statusCode: 200,
-      message: "User was unBanned successfully",
-      payload: {
-        bannedUser: unbannedUser,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 export {
   getUsers,
@@ -273,6 +251,5 @@ export {
   processRegister,
   activeUserAccount,
   updateUserById,
-  banUserById,
-  unbanUserById,
+  handleUserStatusById,
 };
