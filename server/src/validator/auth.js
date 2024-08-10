@@ -96,9 +96,26 @@ const validateUserForgotPassword = [
     .isEmail()
     .withMessage("Email is invalid"),
 ];
+
+const validateUserResetPassword = [
+  body("token").trim().notEmpty().withMessage("Token is missing"),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters")
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/)
+    .withMessage(
+      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+    ),
+];
+
+
 export {
   validateUserRegistration,
   validateUserLogin,
   validateUpdateUserPassword,
   validateUserForgotPassword,
+  validateUserResetPassword,
 };

@@ -215,7 +215,6 @@ try {
   
   const token = await forgotPasswordWithEmail(email);
 
-
   return successHandler(res, {
     statusCode: 200,
     message: `Please check your ${email} to activate your account`,
@@ -230,6 +229,28 @@ try {
 };
 
 
+const handleUserResetPassword = async (req, res, next) => {
+  try {
+    const token = req.body.token;
+    const { password } = req.body;
+    const decoded = jwt.verify(token, jwtPasswordResetKey);
+    if(!decoded) throw createError(400,"Invalid Token");
+
+    const {email} = decoded;
+    const updates = {password: password};
+    const updateOptions = {new: true};
+
+    const user = await User.findOneAndUpdate({email}, updates, updateOptions).select("-password");
+    
+    return successHandler(res, {
+      statusCode: 200,
+      message: "User password was reset successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   handlegetUsers,
   handlegetUserById,
@@ -240,4 +261,5 @@ export {
   handleUserStatusById,
   handleupdateUserPasswordById,
   handleUserForgotPassword,
+  handleUserResetPassword,
 };

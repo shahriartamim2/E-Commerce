@@ -8,6 +8,7 @@ import {
   handleupdateUserById,
   handleupdateUserPasswordById,
   handleUserForgotPassword,
+  handleUserResetPassword,
 } from "../controllers/user.controller.js";
 import Router from "express";
 import upload from "../middlewares/uploadFile.js";
@@ -15,6 +16,7 @@ import {
   validateUpdateUserPassword,
   validateUserRegistration,
   validateUserForgotPassword,
+  validateUserResetPassword,
 } from "../validator/auth.js";
 import { runValidation } from "../validator/index.js";
 import {
@@ -38,6 +40,12 @@ userRouter.post(
 userRouter.post("/activate",isLoggedOut, handleactiveUserAccount);
 userRouter.get("/", isLoggedIn,isAdmin, handlegetUsers);
 userRouter.get("/:id",isLoggedIn, handlegetUserById);
+userRouter.put(
+  "/reset-password/",
+  validateUserResetPassword,
+  runValidation,
+  handleUserResetPassword
+);
 userRouter.put("/:id", isLoggedIn, upload.single("image"), handleupdateUserById);
 userRouter.delete("/:id", isLoggedIn, handledeleteUserById);
 userRouter.put("/manage-user-status/:id", isLoggedIn, isAdmin, handleUserStatusById);
@@ -48,6 +56,7 @@ userRouter.post(
   runValidation,
   handleUserForgotPassword
 );
+
 
 
 
