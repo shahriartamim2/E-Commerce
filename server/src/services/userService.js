@@ -8,6 +8,7 @@ import { errorHandler } from "../controllers/responseHandler.controller.js";
 import { clientUrl, jwtPasswordResetKey } from "../secret.js";
 import sendEmailWithNodeMailer from "../helper/email.js";
 import { generateToken } from "../helper/jsonwebtoken.js";
+import jwt from "jsonwebtoken";
 
 
 const findUser = async (search, page, limit) => {
@@ -213,6 +214,29 @@ const forgotPasswordWithEmail = async(email)=>{
   }
 }
 
+const resetPassword = async (token, password) => {
+  try {
+    
+    const decoded = jwt.verify(token, jwtPasswordResetKey);
+    if (!decoded) throw createError(400, "Invalid Token");
+
+    const { email } = decoded;
+    const filter = { email };
+    const updates = { password: password };
+    const updateOptions = { new: true };
+
+    const user = await User.findOneAndUpdate(
+      filter,
+      updates,
+      updateOptions
+    ).select("-password");
+    return user;
+    
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   findUser,
   findUserWithId,
@@ -220,4 +244,5 @@ export {
   updateUserWithId,
   updateUserPassword,
   forgotPasswordWithEmail,
+  resetPassword,
 };

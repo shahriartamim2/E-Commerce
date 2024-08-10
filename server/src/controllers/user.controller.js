@@ -8,7 +8,7 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey, jwtPasswordResetKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { deleteUserWithId, findUser, findUserWithId, forgotPasswordWithEmail, updateUserPassword, updateUserWithId } from "../services/userService.js";
+import { deleteUserWithId, findUser, findUserWithId, forgotPasswordWithEmail, resetPassword, updateUserPassword, updateUserWithId } from "../services/userService.js";
 
 
 
@@ -231,17 +231,10 @@ try {
 
 const handleUserResetPassword = async (req, res, next) => {
   try {
-    const token = req.body.token;
-    const { password } = req.body;
-    const decoded = jwt.verify(token, jwtPasswordResetKey);
-    if(!decoded) throw createError(400,"Invalid Token");
-
-    const {email} = decoded;
-    const updates = {password: password};
-    const updateOptions = {new: true};
-
-    const user = await User.findOneAndUpdate({email}, updates, updateOptions).select("-password");
+    const { password, token } = req.body;
     
+    await resetPassword(token, password);
+
     return successHandler(res, {
       statusCode: 200,
       message: "User password was reset successfully",
