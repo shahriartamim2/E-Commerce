@@ -6,12 +6,21 @@ import {
   handleUserStatusById,
   handleprocessRegister,
   handleupdateUserById,
+  handleupdateUserPasswordById,
 } from "../controllers/user.controller.js";
 import Router from "express";
 import upload from "../middlewares/uploadFile.js";
-import { validateUserRegistration } from "../validator/auth.js";
+import {
+  validateUpdateUserPassword,
+  validateUserRegistration,
+} from "../validator/auth.js";
 import { runValidation } from "../validator/index.js";
-import { isAdmin, isLoggedIn, isLoggedOut } from "../middlewares/auth.js";
+import {
+  isAdmin,
+  isLoggedIn,
+  isLoggedOut,
+  
+} from "../middlewares/auth.js";
 
 const userRouter = Router();
 
@@ -30,6 +39,7 @@ userRouter.get("/:id",isLoggedIn, handlegetUserById);
 userRouter.put("/:id", isLoggedIn, upload.single("image"), handleupdateUserById);
 userRouter.delete("/:id", isLoggedIn, handledeleteUserById);
 userRouter.put("/manage-user-status/:id", isLoggedIn, isAdmin, handleUserStatusById);
+userRouter.put("/update-password/:id", isLoggedIn, validateUpdateUserPassword, runValidation,  handleupdateUserPasswordById);
 
 
 

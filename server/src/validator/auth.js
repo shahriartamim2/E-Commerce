@@ -43,6 +43,8 @@ const validateUserRegistration = [
     }), 
     
 ];
+
+
 const validateUserLogin = [
 
   body("email")
@@ -60,4 +62,33 @@ const validateUserLogin = [
     
 ];
 
-export { validateUserRegistration, validateUserLogin };
+const validateUpdateUserPassword = [
+  body("oldPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+  body("newPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters")
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/)
+    .withMessage(
+      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+    ),
+  body("confirmPassword").custom((value, { req }) => {
+    if (value !== req.body.newPassword) {
+      throw new Error("Passwords do not match");
+    }
+    return true;
+  }),
+];
+
+export {
+  validateUserRegistration,
+  validateUserLogin,
+  validateUpdateUserPassword,
+};

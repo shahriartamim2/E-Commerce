@@ -12,8 +12,8 @@ const app = express();
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 6,
-  message: "Too many requests from this IP, please try again after 2 minutes",
+  max: 15,
+  message: "Too many requests from this IP, please try again after 1 minutes",
 });
 
 app.use(cookieParser());

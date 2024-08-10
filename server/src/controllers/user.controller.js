@@ -8,7 +8,7 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { deleteUserWithId, findUser, findUserWithId, updateUserWithId } from "../services/userService.js";
+import { deleteUserWithId, findUser, findUserWithId, updateUserPassword, updateUserWithId } from "../services/userService.js";
 
 const handlegetUsers = async (req, res, next) => {
   try {
@@ -187,6 +187,25 @@ const handleUserStatusById = async (req, res, next) => {
   }
 };
 
+const handleupdateUserPasswordById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    
+    const updatedUser = await updateUserPassword(id, req);
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "User password was changed successfully",
+      payload: {
+        updatedUser,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export {
   handlegetUsers,
   handlegetUserById,
@@ -195,4 +214,5 @@ export {
   handleactiveUserAccount,
   handleupdateUserById,
   handleUserStatusById,
+  handleupdateUserPasswordById,
 };
