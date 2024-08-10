@@ -10,7 +10,7 @@ const findWithId = async (Model, id, options = {}) => {
     }
     return item;
   } catch (error) {
-    if (error instanceof mongoose.Error) {
+    if (error instanceof mongoose.Error.CastError) {
       throw createError(404, "invalid item Id");
     }
     throw error;

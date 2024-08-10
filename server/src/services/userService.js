@@ -1,7 +1,9 @@
+import createError from "http-errors";
+import mongoose from "mongoose";
 import deleteImage from "../helper/deleteImage.js";
 import User from "../models/user.model.js";
 import { findWithId } from "./findWithId.js";
-import createError from "http-errors";
+
 
 const findUser = async (search, page, limit) => {
   try {
@@ -39,6 +41,9 @@ const findUser = async (search, page, limit) => {
         users, count, pagination
     }
   } catch (error) {
+    if (error instanceof mongoose.Error.CastError) {
+      throw createError(404, "invalid User Id");
+    }
     next(error);
   }
 };
@@ -54,6 +59,9 @@ const findUserWithId  = async (id, options)=>{
         }
         return users;
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+          throw createError(404, "invalid User Id");
+        }
         throw error;
     }
 }
@@ -73,6 +81,9 @@ const deleteUserWithId  = async (id, options)=>{
         await User.findByIdAndDelete({ _id: id, isAdmin: false });
 
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+          throw createError(404, "invalid User Id");
+        }
         throw error;
     }
 }
@@ -121,6 +132,9 @@ const updateUserWithId  = async (id, options, req)=>{
         return updatedUser;
 
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+          throw createError(404, "invalid User Id");
+        }
         throw error;
     }
 }
