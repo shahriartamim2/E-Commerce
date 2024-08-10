@@ -23,7 +23,6 @@ const sendEmailWithNodeMailer = async (emailData) => {
   
   try {
     const info = await transporter.sendMail(emailInfo);
-    console.log("Message sent: %s", info.messageId);
   } catch (error) {
     console.error(error);
     throw createError(500, "Email not sent");

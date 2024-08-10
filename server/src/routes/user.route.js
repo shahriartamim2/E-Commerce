@@ -7,12 +7,14 @@ import {
   handleprocessRegister,
   handleupdateUserById,
   handleupdateUserPasswordById,
+  handleUserForgotPassword,
 } from "../controllers/user.controller.js";
 import Router from "express";
 import upload from "../middlewares/uploadFile.js";
 import {
   validateUpdateUserPassword,
   validateUserRegistration,
+  validateUserForgotPassword,
 } from "../validator/auth.js";
 import { runValidation } from "../validator/index.js";
 import {
@@ -40,6 +42,12 @@ userRouter.put("/:id", isLoggedIn, upload.single("image"), handleupdateUserById)
 userRouter.delete("/:id", isLoggedIn, handledeleteUserById);
 userRouter.put("/manage-user-status/:id", isLoggedIn, isAdmin, handleUserStatusById);
 userRouter.put("/update-password/:id", isLoggedIn, validateUpdateUserPassword, runValidation,  handleupdateUserPasswordById);
+userRouter.post(
+  "/forgot-password/",
+  validateUserForgotPassword,
+  runValidation,
+  handleUserForgotPassword
+);
 
 
 

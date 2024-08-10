@@ -7,8 +7,9 @@ const mongoUrl =
 const defaultUserImage =
   process.env.DEFAULT_USER_IMAGE || "../public/images/users/default.png";
 
-const jwtActivationKey = process.env.JWT_ACTIVATION_KEY || "activation";
-const jwtAccessKey = process.env.JWT_ACCESS_KEY || "access";
+const jwtActivationKey = process.env.JWT_ACTIVATION_KEY || "123";
+const jwtAccessKey = process.env.JWT_ACCESS_KEY || "123";
+const jwtPasswordResetKey = process.env.JWT_PASSWORD_RESET_KEY||"123";
 
 const smtpUser = process.env.SMTP_USER || "";
 const smtpPass = process.env.SMTP_PASS || "";
@@ -24,4 +25,5 @@ export {
   jwtActivationKey,
   clientUrl,
   jwtAccessKey,
+  jwtPasswordResetKey,
 };
