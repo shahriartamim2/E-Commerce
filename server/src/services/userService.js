@@ -43,6 +43,21 @@ const findUser = async (search, page, limit) => {
   }
 };
 
+const findUserWithId  = async (id, options)=>{
+    try {
+        const users = await User.findById(id, options);
+        if (!users) {
+            return errorHandler(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+        return users;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const deleteUserWithId  = async (id, options)=>{
     try {
         const user = await findWithId(User, id, options);
@@ -61,19 +76,24 @@ const deleteUserWithId  = async (id, options)=>{
         throw error;
     }
 }
-const findUserWithId  = async (id, options)=>{
+
+const updateUserWithId  = async (id, options)=>{
     try {
-        const users = await User.findById(id, options);
-        if (!users) {
+        const user = await findWithId(User, id, options);
+        if (!user) {
             return errorHandler(res, {
                 statusCode: 404,
-                message: "User not found",
+                message: "User not found with this id",
             });
         }
-        return users;
+        const userImagePath = user.image;
+        deleteImage(userImagePath);
+
+        await User.findByIdAndDelete({ _id: id, isAdmin: false });
+
     } catch (error) {
         throw error;
     }
 }
 
-export { findUser, findUserWithId, deleteUserWithId };
+export { findUser, findUserWithId, deleteUserWithId, updateUserWithId };

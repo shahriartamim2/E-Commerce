@@ -10,7 +10,7 @@ import { clientUrl, jwtActivationKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
 import { deleteUserWithId, findUser, findUserWithId } from "../services/userService.js";
 
-const getUsers = async (req, res, next) => {
+const handlegetUsers = async (req, res, next) => {
   try {
     const search = req.query.search || "";
     const page = parseInt(req.query.page) || 1;
@@ -32,7 +32,7 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-const getUserById = async (req, res, next) => {
+const handlegetUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const options = { password: 0 };
@@ -50,7 +50,7 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-const deleteUserById = async (req, res, next) => {
+const handledeleteUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const options = { password: 0 };
@@ -64,7 +64,7 @@ const deleteUserById = async (req, res, next) => {
   }
 };
 
-const processRegister = async (req, res, next) => {
+const handleprocessRegister = async (req, res, next) => {
   try {
     const { name, email, password, phone, address } = req.body;
 
@@ -110,7 +110,7 @@ const processRegister = async (req, res, next) => {
   }
 };
 
-const activeUserAccount = async (req, res, next) => {
+const handleactiveUserAccount = async (req, res, next) => {
   try {
     const token = req.body.token;
 
@@ -149,7 +149,7 @@ const activeUserAccount = async (req, res, next) => {
   }
 };
 
-const updateUserById = async (req, res, next) => {
+const handleupdateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const updateOptions = { new: true, runValidations: true, context: "query" };
@@ -215,11 +215,11 @@ const handleUserStatusById = async (req, res, next) => {
 };
 
 export {
-  getUsers,
-  getUserById,
-  deleteUserById,
-  processRegister,
-  activeUserAccount,
-  updateUserById,
+  handlegetUsers,
+  handlegetUserById,
+  handledeleteUserById,
+  handleprocessRegister,
+  handleactiveUserAccount,
+  handleupdateUserById,
   handleUserStatusById,
 };

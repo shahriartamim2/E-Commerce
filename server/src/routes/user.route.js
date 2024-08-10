@@ -1,11 +1,11 @@
 import {
-  activeUserAccount,
-  deleteUserById,
-  getUserById,
-  getUsers,
+  handleactiveUserAccount,
+  handledeleteUserById,
+  handlegetUserById,
+  handlegetUsers,
   handleUserStatusById,
-  processRegister,
-  updateUserById,
+  handleprocessRegister,
+  handleupdateUserById,
 } from "../controllers/user.controller.js";
 import Router from "express";
 import upload from "../middlewares/uploadFile.js";
@@ -22,13 +22,13 @@ userRouter.post(
   upload.single("image"),
   validateUserRegistration,
   runValidation,
-  processRegister
+  handleprocessRegister
 );
-userRouter.post("/activate",isLoggedOut, activeUserAccount);
-userRouter.get("/", isLoggedIn,isAdmin, getUsers);
-userRouter.get("/:id",isLoggedIn, getUserById);
-userRouter.put("/:id", isLoggedIn, upload.single("image"), updateUserById);
-userRouter.delete("/:id", isLoggedIn, deleteUserById);
+userRouter.post("/activate",isLoggedOut, handleactiveUserAccount);
+userRouter.get("/", isLoggedIn,isAdmin, handlegetUsers);
+userRouter.get("/:id",isLoggedIn, handlegetUserById);
+userRouter.put("/:id", isLoggedIn, upload.single("image"), handleupdateUserById);
+userRouter.delete("/:id", isLoggedIn, handledeleteUserById);
 userRouter.put("/manage-user-status/:id", isLoggedIn, isAdmin, handleUserStatusById);
 
 
