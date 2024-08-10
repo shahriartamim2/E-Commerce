@@ -2,32 +2,31 @@ import { errorHandler, successHandler } from "./responseHandler.controller.js";
 import User from "../models/user.model.js";
 import createError from "http-errors";
 import { findWithId } from "../services/findWithId.js";
-import  deleteImage from "../../src/helper/deleteImage.js";
+import deleteImage from "../../src/helper/deleteImage.js";
 import { generateToken } from "../../src/helper/jsonwebtoken.js";
 import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { findUser } from "../services/userService.js";
+import { findUser, findUserWithId } from "../services/userService.js";
 
 const getUsers = async (req, res, next) => {
   try {
     const search = req.query.search || "";
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
-    
-    const {count, users, pagination} = await findUser(search, page, limit);
 
-      return successHandler(res, {
-        statusCode: 200,
-        message: "Users retrieved successfully",
-        payload: {
-          found: count,
-          users: users,
-          pagination: pagination
-        },
-      });
-    
+    const { count, users, pagination } = await findUser(search, page, limit);
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "Users retrieved successfully",
+      payload: {
+        found: count,
+        users: users,
+        pagination: pagination,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -35,22 +34,18 @@ const getUsers = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
   try {
-    // const id = req.params.id;
-    const id = req.body.user.id;
+    const id = req.params.id;
+    // const id = req.body.user.id;
     const options = { password: 0 };
-    const user = await findWithId(User, id, options);
+    const user = await findUserWithId(id, options);
 
-    if (!user) {
-      return errorHandler(res, { statusCode: 404, message: "User not found" });
-    } else {
-      return successHandler(res, {
-        statusCode: 200,
-        message: "User found successfully",
-        payload: {
-          user,
-        },
-      });
-    }
+    return successHandler(res, {
+      statusCode: 200,
+      message: "User found successfully",
+      payload: {
+        user,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -89,7 +84,7 @@ const processRegister = async (req, res, next) => {
     }
 
     const token = generateToken(
-      { name, email, password, phone, address, image : imageBufferString },
+      { name, email, password, phone, address, image: imageBufferString },
       jwtActivationKey,
       "20m"
     );
@@ -135,7 +130,7 @@ const activeUserAccount = async (req, res, next) => {
       console.log(decoded);
 
       const userExists = await User.findOne({ email: decoded.email });
-      if(userExists){
+      if (userExists) {
         throw createError(409, "User already exists. Please login");
       }
 
@@ -151,7 +146,10 @@ const activeUserAccount = async (req, res, next) => {
       } else if (error.name === "JsonWebTokenError") {
         throw createError(401, "Invalid Token");
       } else {
-        throw createError(400, "Something went wrong. Unable to verify user. Please register again");
+        throw createError(
+          400,
+          "Something went wrong. Unable to verify user. Please register again"
+        );
       }
     }
   } catch (error) {
@@ -162,20 +160,20 @@ const activeUserAccount = async (req, res, next) => {
 const updateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const updateOptions = {new:true, runValidations:true, context:'query'};
+    const updateOptions = { new: true, runValidations: true, context: "query" };
     const options = { password: 0 };
     await findWithId(User, id, options);
 
     let updates = {};
 
-    for(let key in req.body){
-      if(['name','password','phone','address'].includes(key)){
+    for (let key in req.body) {
+      if (["name", "password", "phone", "address"].includes(key)) {
         updates[key] = req.body[key];
       }
     }
 
     const image = req.file;
-    if(image){
+    if (image) {
       if (image.mimetype !== "image/png" && image.mimetype !== "image/jpeg") {
         throw createError(400, "Please upload an image of type PNG or JPEG");
       }
@@ -183,19 +181,22 @@ const updateUserById = async (req, res, next) => {
         throw createError(400, "Image size should not exceed 5MB");
       }
       updates.image = image.buffer.toString("base64");
-    }
-    else{
+    } else {
       throw createError(400, "Please upload an image");
     }
-    
-    const updatedUser = await User.findByIdAndUpdate(id, updates, updateOptions).select('-password');
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      updates,
+      updateOptions
+    ).select("-password");
 
     return successHandler(res, {
       statusCode: 200,
       message: "User updated successfully",
-      payload:{
-        updatedUser
-      }
+      payload: {
+        updatedUser,
+      },
     });
   } catch (error) {
     next(error);
@@ -220,8 +221,6 @@ const handleUserStatusById = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 export {
   getUsers,

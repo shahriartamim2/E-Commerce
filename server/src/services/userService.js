@@ -41,4 +41,19 @@ const findUser = async (search, page, limit) => {
   }
 };
 
-export { findUser };
+const findUserWithId  = async (id, options)=>{
+    try {
+        const users = await User.findById(id, options);
+        if (!users) {
+            return errorHandler(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+        return users;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export { findUser, findUserWithId };
