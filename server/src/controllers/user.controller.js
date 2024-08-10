@@ -8,7 +8,7 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { findUser, findUserWithId } from "../services/userService.js";
+import { deleteUserWithId, findUser, findUserWithId } from "../services/userService.js";
 
 const getUsers = async (req, res, next) => {
   try {
@@ -35,7 +35,6 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    // const id = req.body.user.id;
     const options = { password: 0 };
     const user = await findUserWithId(id, options);
 
@@ -55,14 +54,7 @@ const deleteUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const options = { password: 0 };
-    const user = await findWithId(User, id, options);
-
-    const userImagePath = user.image;
-
-    deleteImage(userImagePath);
-
-    await User.findByIdAndDelete({ _id: id, isAdmin: false });
-
+    await deleteUserWithId(id, options);
     return successHandler(res, {
       statusCode: 200,
       message: "User deleted successfully",

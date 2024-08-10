@@ -1,4 +1,6 @@
+import deleteImage from "../helper/deleteImage.js";
 import User from "../models/user.model.js";
+import { findWithId } from "./findWithId.js";
 
 
 const findUser = async (search, page, limit) => {
@@ -41,6 +43,24 @@ const findUser = async (search, page, limit) => {
   }
 };
 
+const deleteUserWithId  = async (id, options)=>{
+    try {
+        const user = await findWithId(User, id, options);
+        if (!user) {
+            return errorHandler(res, {
+                statusCode: 404,
+                message: "User not found with this id",
+            });
+        }
+        const userImagePath = user.image;
+        deleteImage(userImagePath);
+
+        await User.findByIdAndDelete({ _id: id, isAdmin: false });
+
+    } catch (error) {
+        throw error;
+    }
+}
 const findUserWithId  = async (id, options)=>{
     try {
         const users = await User.findById(id, options);
@@ -56,4 +76,4 @@ const findUserWithId  = async (id, options)=>{
     }
 }
 
-export { findUser, findUserWithId };
+export { findUser, findUserWithId, deleteUserWithId };
