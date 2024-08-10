@@ -5,6 +5,9 @@ import User from "../models/user.model.js";
 import { findWithId } from "./findWithId.js";
 import bcrypt from "bcryptjs";
 import { errorHandler } from "../controllers/responseHandler.controller.js";
+import { clientUrl, jwtPasswordResetKey } from "../secret.js";
+import sendEmailWithNodeMailer from "../helper/email.js";
+import { generateToken } from "../helper/jsonwebtoken.js";
 
 
 const findUser = async (search, page, limit) => {
@@ -176,10 +179,45 @@ const updateUserPassword = async (id, req) => {
   }
 };
 
+const forgotPasswordWithEmail = async(email)=>{
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw createError(404, "User not found with this email");
+    }
+
+
+    const token = generateToken({ email }, jwtPasswordResetKey, "20m");
+
+    const emailData = {
+      email,
+      subject: "Password Reset Email",
+      html: `
+      <h2>Hello ${user.name}</h2>
+      <p>Please click the link below to <a href="${clientUrl}/api/users/activate/${token}">activate your account</a></p>
+      `,
+    };
+    console.log("before sending email");
+
+    try {
+      await sendEmailWithNodeMailer(emailData);
+    } catch (error) {
+      throw createError(500, "Email not sent");
+    }
+
+    return token;
+
+  } catch (error) {
+    throw error;
+    
+  }
+}
+
 export {
   findUser,
   findUserWithId,
   deleteUserWithId,
   updateUserWithId,
   updateUserPassword,
+  forgotPasswordWithEmail,
 };

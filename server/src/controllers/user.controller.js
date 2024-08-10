@@ -8,7 +8,7 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey, jwtPasswordResetKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { deleteUserWithId, findUser, findUserWithId, updateUserPassword, updateUserWithId } from "../services/userService.js";
+import { deleteUserWithId, findUser, findUserWithId, forgotPasswordWithEmail, updateUserPassword, updateUserWithId } from "../services/userService.js";
 
 
 
@@ -153,7 +153,6 @@ const handledeleteUserById = async (req, res, next) => {
 };
 
 
-
 const handleupdateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -213,42 +212,20 @@ const handleupdateUserPasswordById = async (req, res, next) => {
 const handleUserForgotPassword = async (req, res, next) => {
 try {
   const {email} = req.body;
-  const user = await User.findOne({email});
-  if(!user){
-    throw createError(404, "User not found with this email");
-  }
+  
+  const token = await forgotPasswordWithEmail(email);
 
-  const token = generateToken(
-    { email },
-    jwtPasswordResetKey,
-    "20m"
-  );
-
-  const emailData = {
-    email,
-    subject: "Password Reset Email",
-    html: `
-      <h2>Hello ${user.name}</h2>
-      <p>Please click the link below to <a href="${clientUrl}/api/users/activate/${token}">activate your account</a></p>
-      `,
-  };
-
-  try {
-    await sendEmailWithNodeMailer(emailData);
-  } catch (error) {
-    throw createError(500, "Email not sent");
-  }
 
   return successHandler(res, {
     statusCode: 200,
-    message: `Please check your ${emailData.email} to activate your account`,
+    message: `Please check your ${email} to activate your account`,
     payload: {
       token,
     },
   });
 
 } catch (error) {
-  
+  next(error);
 }
 };
 
