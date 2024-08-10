@@ -8,7 +8,7 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { deleteUserWithId, findUser, findUserWithId } from "../services/userService.js";
+import { deleteUserWithId, findUser, findUserWithId, updateUserWithId } from "../services/userService.js";
 
 const handlegetUsers = async (req, res, next) => {
   try {
@@ -152,36 +152,9 @@ const handleactiveUserAccount = async (req, res, next) => {
 const handleupdateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const updateOptions = { new: true, runValidations: true, context: "query" };
     const options = { password: 0 };
-    await findWithId(User, id, options);
-
-    let updates = {};
-
-    for (let key in req.body) {
-      if (["name", "password", "phone", "address"].includes(key)) {
-        updates[key] = req.body[key];
-      }
-    }
-
-    const image = req.file;
-    if (image) {
-      if (image.mimetype !== "image/png" && image.mimetype !== "image/jpeg") {
-        throw createError(400, "Please upload an image of type PNG or JPEG");
-      }
-      if (image.size > 5 * 1024 * 1024) {
-        throw createError(400, "Image size should not exceed 5MB");
-      }
-      updates.image = image.buffer.toString("base64");
-    } else {
-      throw createError(400, "Please upload an image");
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      updates,
-      updateOptions
-    ).select("-password");
+    
+    const updatedUser = await updateUserWithId(id, options, req);
 
     return successHandler(res, {
       statusCode: 200,

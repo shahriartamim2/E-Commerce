@@ -1,7 +1,7 @@
 import deleteImage from "../helper/deleteImage.js";
 import User from "../models/user.model.js";
 import { findWithId } from "./findWithId.js";
-
+import createError from "http-errors";
 
 const findUser = async (search, page, limit) => {
   try {
@@ -77,19 +77,48 @@ const deleteUserWithId  = async (id, options)=>{
     }
 }
 
-const updateUserWithId  = async (id, options)=>{
+const updateUserWithId  = async (id, options, req)=>{
     try {
-        const user = await findWithId(User, id, options);
-        if (!user) {
-            return errorHandler(res, {
-                statusCode: 404,
-                message: "User not found with this id",
-            });
-        }
-        const userImagePath = user.image;
-        deleteImage(userImagePath);
+        const updateOptions = {
+          new: true,
+          runValidations: true,
+          context: "query",
+        };
+        await findWithId(User, id, options);
 
-        await User.findByIdAndDelete({ _id: id, isAdmin: false });
+        let updates = {};
+
+        for (let key in req.body) {
+          if (["name", "password", "phone", "address"].includes(key)) {
+            updates[key] = req.body[key];
+          }
+        }
+
+        const image = req.file;
+        if (image) {
+          if (
+            image.mimetype !== "image/png" &&
+            image.mimetype !== "image/jpeg" &&
+            image.mimetype !== "image/jpg"
+          ) {
+            throw createError(
+              400,
+              "Please upload an image of type PNG or JPEG or JPG"
+            );
+          }
+          if (image.size > 5 * 1024 * 1024) {
+            throw createError(400, "Image size should not exceed 5MB");
+          }
+          updates.image = image.buffer.toString("base64");
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+          id,
+          updates,
+          updateOptions
+        ).select("-password");
+
+        return updatedUser;
 
     } catch (error) {
         throw error;
