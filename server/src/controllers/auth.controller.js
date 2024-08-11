@@ -4,56 +4,68 @@ import bcrypt from "bcryptjs";
 import { successHandler } from "./responseHandler.controller.js";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../helper/jsonwebtoken.js";
-import { jwtAccessKey } from "../secret.js";
+import { jwtAccessKey, jwtRefreshKey } from "../secret.js";
 
 const handleLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    // check if user exists with this emails  
+    // check if user exists with this emails
     const user = await User.findOne({ email: email });
-    if(!user){
-        throw createError(404,'User does not exists with this email. Please register first');
+    if (!user) {
+      throw createError(
+        404,
+        "User does not exists with this email. Please register first"
+      );
     }
     //compare password
     const isPasswordMatch = bcrypt.compareSync(password, user.password);
-    if(!isPasswordMatch){
-        throw createError(400,'Invalid credentials');
+    if (!isPasswordMatch) {
+      throw createError(400, "Invalid credentials");
     }
     // check isBanned or not
 
-    if(user.isBanned){
-        throw createError(403, 'You are banned from the system. Please contact admin');
+    if (user.isBanned) {
+      throw createError(
+        403,
+        "You are banned from the system. Please contact admin"
+      );
     }
 
-    // jwt token in cookis 
-    const userInToken ={
-        id:user._id,
-        name:user.name,
-        email:user.email,
-        password:user.password,
-        isAdmin:user.isAdmin,
-        isBanned:user.isBanned,
-        
-    }
-    const accessToken = generateToken(userInToken, jwtAccessKey, '15m');
-
-       
+    // geneerate jwt token and save in in cookis
+    // image in token makes the token too large so we will not include image in token
+    const userInToken = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      isAdmin: user.isAdmin,
+      isBanned: user.isBanned,
+    };
+    const accessToken = generateToken(userInToken, jwtAccessKey, "1m");
     res.cookie("accessToken", accessToken, {
-      maxAge: 15 * 60 * 1000,
+      maxAge: 1 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: "none",
     });
 
- const userWithoutPassword = await User.findOne({ email: email }).select(
-   "-password"
- );
+    const refreshToken = generateToken(userInToken, jwtRefreshKey, "7d");
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 7 * 24 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    const userWithoutPassword = await User.findOne({ email: email }).select(
+      "-password"
+    );
 
     return successHandler(res, {
       statusCode: 200,
       message: "User logged in Succesfully",
       payload: {
-        userWithoutPassword
+        userWithoutPassword,
       },
     });
   } catch (error) {
@@ -61,10 +73,10 @@ const handleLogin = async (req, res, next) => {
   }
 };
 
-
 const handleLogout = async (req, res, next) => {
   try {
-    res.clearCookie('accessToken');
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
 
     return successHandler(res, {
       statusCode: 200,
@@ -76,4 +88,60 @@ const handleLogout = async (req, res, next) => {
   }
 };
 
-export { handleLogin , handleLogout};
+const handleRefreshToken = async (req, res, next) => {
+  try {
+    const oldRefreshToken = req.cookies.refreshToken;
+    if (!oldRefreshToken) {
+      throw createError(403, "Access Denied");
+    }
+    const decoded = jwt.verify(oldRefreshToken, jwtRefreshKey);
+    if (!decoded) {
+      throw createError(403, "Invalid Token");
+    }
+
+    const userInToken = {
+      id: decoded.id,
+      name: decoded.name,
+      email: decoded.email,
+      password: decoded.password,
+      isAdmin: decoded.isAdmin,
+      isBanned: decoded.isBanned,
+    };
+
+    const accessToken = generateToken(userInToken, jwtAccessKey, "1m");
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "Access token generated Succesfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+const handleProtectedRoute = async (req, res, next) => {
+  try {
+    const oldAccessToken = req.cookies.accessToken;
+    if (!oldAccessToken) {
+      throw createError(403, "Access Denied. No token found");
+    }
+    const decoded = jwt.verify(oldAccessToken, jwtAccessKey);
+    if (!decoded) {
+      throw createError(403, "Invalid Token. Please login again");
+    }
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "Protected route accessed Succesfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { handleLogin, handleLogout, handleRefreshToken, handleProtectedRoute };
