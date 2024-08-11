@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 import { mongoUrl } from '../secret.js';
+import logger from '../controllers/logger.controller.js';
 
 
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoUrl);
-    console.log('MongoDB connection SUCCESS');
+    logger.log('info','MongoDB connection SUCCESS');
   } catch (error) {
-    console.error('MongoDB connection FAIL');
+    logger.error('error','MongoDB connection FAIL');
     process.exit(1);
   }
 }
