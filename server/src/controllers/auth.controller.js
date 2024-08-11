@@ -41,9 +41,9 @@ const handleLogin = async (req, res, next) => {
       isAdmin: user.isAdmin,
       isBanned: user.isBanned,
     };
-    const accessToken = generateToken(userInToken, jwtAccessKey, "1m");
+    const accessToken = generateToken(userInToken, jwtAccessKey, "5m");
     res.cookie("accessToken", accessToken, {
-      maxAge: 1 * 60 * 1000,
+      maxAge: 5 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -57,9 +57,8 @@ const handleLogin = async (req, res, next) => {
       sameSite: "none",
     });
 
-    const userWithoutPassword = await User.findOne({ email: email }).select(
-      "-password"
-    );
+    const userWithoutPassword = user.toObject();
+    delete userWithoutPassword.password;
 
     return successHandler(res, {
       statusCode: 200,
@@ -108,9 +107,9 @@ const handleRefreshToken = async (req, res, next) => {
       isBanned: decoded.isBanned,
     };
 
-    const accessToken = generateToken(userInToken, jwtAccessKey, "1m");
+    const accessToken = generateToken(userInToken, jwtAccessKey, "5m");
     res.cookie("accessToken", accessToken, {
-      maxAge: 1 * 60 * 1000,
+      maxAge: 5 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -124,6 +123,7 @@ const handleRefreshToken = async (req, res, next) => {
     next(error);
   }
 };
+
 const handleProtectedRoute = async (req, res, next) => {
   try {
     const oldAccessToken = req.cookies.accessToken;

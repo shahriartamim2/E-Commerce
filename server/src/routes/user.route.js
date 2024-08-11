@@ -39,17 +39,28 @@ userRouter.post(
 );
 userRouter.post("/activate",isLoggedOut, handleactiveUserAccount);
 userRouter.get("/", isLoggedIn,isAdmin, handlegetUsers);
-userRouter.get("/:id",isLoggedIn, handlegetUserById);
+userRouter.get("/:id([0-9a-fA-F]{24})", isLoggedIn, handlegetUserById);
 userRouter.put(
   "/reset-password/",
   validateUserResetPassword,
   runValidation,
   handleUserResetPassword
 );
-userRouter.put("/:id", isLoggedIn, upload.single("image"), handleupdateUserById);
-userRouter.delete("/:id", isLoggedIn, handledeleteUserById);
-userRouter.put("/manage-user-status/:id", isLoggedIn, isAdmin, handleUserStatusById);
-userRouter.put("/update-password/:id", isLoggedIn, validateUpdateUserPassword, runValidation,  handleupdateUserPasswordById);
+userRouter.put("/:id([0-9a-fA-F]{24})", isLoggedIn, upload.single("image"), handleupdateUserById);
+userRouter.delete("/:id([0-9a-fA-F]{24})", isLoggedIn, handledeleteUserById);
+userRouter.put(
+  "/manage-user-status/:id([0-9a-fA-F]{24})",
+  isLoggedIn,
+  isAdmin,
+  handleUserStatusById
+);
+userRouter.put(
+  "/update-password/:id([0-9a-fA-F]{24})",
+  isLoggedIn,
+  validateUpdateUserPassword,
+  runValidation,
+  handleupdateUserPasswordById
+);
 userRouter.post(
   "/forgot-password/",
   validateUserForgotPassword,

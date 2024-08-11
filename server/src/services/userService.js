@@ -106,8 +106,10 @@ const updateUserWithId = async (id, options, req) => {
 
     let updates = {};
 
-    for (let key in req.body) {
-      if (["name", "password", "phone", "address"].includes(key)) {
+    const allowedUpdates = ["name", "email", "phone", "address"];
+
+    for (const key in req.body) {
+      if (allowedUpdates.includes(key)) {
         updates[key] = req.body[key];
       }
     }
