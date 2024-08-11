@@ -5,6 +5,10 @@ import { successHandler } from "./responseHandler.controller.js";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../helper/jsonwebtoken.js";
 import { jwtAccessKey, jwtRefreshKey } from "../secret.js";
+import {
+  setAccessTokenCookie,
+  setRefreshTokenCookie,
+} from "../helper/cookie.js";
 
 const handleLogin = async (req, res, next) => {
   try {
@@ -42,20 +46,10 @@ const handleLogin = async (req, res, next) => {
       isBanned: user.isBanned,
     };
     const accessToken = generateToken(userInToken, jwtAccessKey, "5m");
-    res.cookie("accessToken", accessToken, {
-      maxAge: 5 * 60 * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+    setAccessTokenCookie(res, accessToken);
 
     const refreshToken = generateToken(userInToken, jwtRefreshKey, "7d");
-    res.cookie("refreshToken", refreshToken, {
-      maxAge: 7 * 24 * 60 * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+    setRefreshTokenCookie(res, refreshToken);
 
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
@@ -91,11 +85,11 @@ const handleRefreshToken = async (req, res, next) => {
   try {
     const oldRefreshToken = req.cookies.refreshToken;
     if (!oldRefreshToken) {
-      throw createError(403, "Access Denied");
+      throw createError(403, "No refresh token found. Please login again");
     }
     const decoded = jwt.verify(oldRefreshToken, jwtRefreshKey);
     if (!decoded) {
-      throw createError(403, "Invalid Token");
+      throw createError(403, "Invalid Token. Please login again");
     }
 
     const userInToken = {
@@ -108,12 +102,7 @@ const handleRefreshToken = async (req, res, next) => {
     };
 
     const accessToken = generateToken(userInToken, jwtAccessKey, "5m");
-    res.cookie("accessToken", accessToken, {
-      maxAge: 5 * 60 * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+    setAccessTokenCookie(res, accessToken);
 
     return successHandler(res, {
       statusCode: 200,

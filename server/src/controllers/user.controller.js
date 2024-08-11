@@ -9,6 +9,8 @@ import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey, jwtPasswordResetKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
 import { deleteUserWithId, findUser, findUserWithId, forgotPasswordWithEmail, resetPassword, updateUserPassword, updateUserWithId } from "../services/userService.js";
+import checkUserExists from "../helper/checkUserExists.js";
+import sendEmail from "../helper/sendEmail.js";
 
 
 
@@ -18,7 +20,7 @@ const handleprocessRegister = async (req, res, next) => {
 
     const imageBufferString = req.file.buffer.toString("base64");
 
-    const userExists = await User.findOne({ email: email });
+    const userExists = await checkUserExists(email);
     if (userExists) {
       throw createError(409, "User already exists. Please login");
     }
@@ -38,12 +40,7 @@ const handleprocessRegister = async (req, res, next) => {
       `,
     };
 
-    try {
-      // await sendEmailWithNodeMailer(emailData);
-      console.log("Email sent");
-    } catch (error) {
-      throw createError(500, "Email not sent");
-    }
+    await sendEmail(emailData);
 
     return successHandler(res, {
       statusCode: 200,

@@ -9,6 +9,7 @@ import { clientUrl, jwtPasswordResetKey } from "../secret.js";
 import sendEmailWithNodeMailer from "../helper/email.js";
 import { generateToken } from "../helper/jsonwebtoken.js";
 import jwt from "jsonwebtoken";
+import sendEmail from "../helper/sendEmail.js";
 
 
 const findUser = async (search, page, limit) => {
@@ -189,7 +190,6 @@ const forgotPasswordWithEmail = async(email)=>{
       throw createError(404, "User not found with this email");
     }
 
-
     const token = generateToken({ email }, jwtPasswordResetKey, "20m");
 
     const emailData = {
@@ -200,13 +200,8 @@ const forgotPasswordWithEmail = async(email)=>{
       <p>Please click the link below to <a href="${clientUrl}/api/users/activate/${token}">activate your account</a></p>
       `,
     };
-    console.log("before sending email");
 
-    try {
-      await sendEmailWithNodeMailer(emailData);
-    } catch (error) {
-      throw createError(500, "Email not sent");
-    }
+    await sendEmail(emailData);
 
     return token;
 
