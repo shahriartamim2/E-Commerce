@@ -1,6 +1,7 @@
 import createError from "http-errors";
 import {
   createCategory,
+  deleteCategory,
   getCategories,
   getSingleCategory,
   updateCategory,
@@ -65,6 +66,7 @@ const handleUpdateCategory = async (req, res, next) => {
     next(error);
   }
 };
+
 const handleGetSingleCategory = async (req, res, next) => {
   try {
     const { slug } = req.params;
@@ -85,9 +87,33 @@ const handleGetSingleCategory = async (req, res, next) => {
   }
 };
 
+
+const handleDeleteCategory = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const deletedCategory = await deleteCategory(slug);
+    if (!deletedCategory) {
+      throw createError(404, "No category found");
+    }
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "Category deleted successfully",
+      payload: {
+        deletedCategory,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 export {
   handleGetCategories,
   handleCreateCategory,
   handleGetSingleCategory,
   handleUpdateCategory,
+  handleDeleteCategory,
 };

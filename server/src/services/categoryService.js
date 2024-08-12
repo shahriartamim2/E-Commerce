@@ -37,4 +37,15 @@ const updateCategory = async (name, slug) => {
   }
 };
 
-export { createCategory, getCategories, getSingleCategory, updateCategory };
+const deleteCategory = async(slug)=>{
+    const deletedCategory = Category.findOneAndDelete({slug:slug});
+    return deletedCategory;
+}
+
+export {
+  createCategory,
+  getCategories,
+  getSingleCategory,
+  updateCategory,
+  deleteCategory,
+};
