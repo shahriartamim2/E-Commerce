@@ -8,6 +8,7 @@ import { errorHandler } from "../src/controllers/responseHandler.controller.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import categoryRouter from "./routes/category.route.js";
+import productRouter from "./routes/product.route.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/", seedRouter);
 app.use("/api/users",userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
+app.use("/api/products", productRouter);
 
 
 app.get("/", (req, res) => {

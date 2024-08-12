@@ -149,7 +149,6 @@ const handledeleteUserById = async (req, res, next) => {
   }
 };
 
-
 const handleupdateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
