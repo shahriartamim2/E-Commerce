@@ -1,4 +1,4 @@
-// registration validation
+
 import { body } from "express-validator";
 
 const validateUserRegistration = [

@@ -7,6 +7,7 @@ import userRouter from "../src/routes/user.route.js";
 import { errorHandler } from "../src/controllers/responseHandler.controller.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
+import categoryRouter from "./routes/category.route.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/", seedRouter);
 app.use("/api/users",userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/categories", categoryRouter);
 
 
 app.get("/", (req, res) => {
