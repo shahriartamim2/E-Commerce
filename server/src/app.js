@@ -25,6 +25,7 @@ app.use(rateLimiter);
 app.use(xssClean());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("combined"));
 
 
 app.use("/api/", seedRouter);
