@@ -34,9 +34,15 @@ const checkProductExists = async (name) => {
   return await Product.findOne({ name });
 };
 
-const getAllProducts = async (page, limit) => {
-  const count = await Product.find({}).countDocuments();
-  const products = await Product.find({})
+const getAllProducts = async (search, page =1, limit=5) => {
+      const searchRegExp = new RegExp(".*" + search + ".*", "i");
+      const filter = {
+        $or: [
+          { name: { $regex: searchRegExp } },
+        ],
+      };
+  const count = await Product.find(filter).countDocuments();
+  const products = await Product.find(filter)
     .skip((page - 1) * limit)
     .limit(limit)
     .populate("category");

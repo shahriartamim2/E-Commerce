@@ -18,8 +18,8 @@ productRouter.post(
 );
 productRouter.get('/', handleGetAllProducts);
 productRouter.get('/:slug', handleGetSingleProduct);
-productRouter.delete("/:slug", handleDeleteProduct);
-productRouter.put("/:slug", handleUpdateProduct);
+productRouter.delete("/:slug",isLoggedIn, isAdmin, handleDeleteProduct);
+productRouter.put("/:slug",isLoggedIn, isAdmin, handleUpdateProduct);
 
 export default productRouter;
 

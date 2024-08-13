@@ -43,10 +43,11 @@ const handleCreateProduct = async (req, res, next) => {
 
 const handleGetAllProducts = async (req, res, next) => {
   try {
+        const search = req.query.search || "";
     const page = req.body.page||1;
     const limit = req.body.limit||5;
 
-    const fetchedproducts = await getAllProducts(page, limit);
+    const fetchedproducts = await getAllProducts(search, page, limit);
     if (!fetchedproducts) {
       return createError(404, "Products not found");
     }
