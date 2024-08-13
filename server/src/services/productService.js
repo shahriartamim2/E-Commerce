@@ -44,4 +44,12 @@ const getAllProducts = async (page, limit) => {
   return { products, count };
 };
 
-export { createProduct, checkProductExists, getAllProducts };
+
+const getSingleProduct = async (slug) => {
+
+  const result = await Product.findOne({slug:slug}).populate("category");
+
+  return result;
+};
+
+export { createProduct, checkProductExists, getAllProducts, getSingleProduct };
