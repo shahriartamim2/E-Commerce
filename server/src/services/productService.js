@@ -52,4 +52,17 @@ const getSingleProduct = async (slug) => {
   return result;
 };
 
-export { createProduct, checkProductExists, getAllProducts, getSingleProduct };
+
+const deleteProduct = async (slug) => {
+
+  const result = await Product.findOneAndDelete({slug:slug});
+  return result;
+};
+
+export {
+  createProduct,
+  checkProductExists,
+  getAllProducts,
+  getSingleProduct,
+  deleteProduct,
+};
