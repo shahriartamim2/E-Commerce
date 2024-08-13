@@ -1,11 +1,13 @@
-import { checkProductExists, createProduct } from "../services/productService.js";
+import { checkProductExists, createProduct, getAllProducts } from "../services/productService.js";
 import { successHandler } from "./responseHandler.controller.js";
 import createError from "http-errors";
 
 
+
 const handleCreateProduct = async (req, res, next) => {
   try {
-    const { name, description, price, quantity, sold, shipping, category } = req.body;
+    const { name, description, price, quantity, sold, shipping, category } =
+      req.body;
 
     const imageBufferString = req.file.buffer.toString("base64");
 
@@ -27,7 +29,7 @@ const handleCreateProduct = async (req, res, next) => {
 
     const newProduct = await createProduct(product);
     if (!newProduct) {
-      return res.status(400).json({ error: "Product creation failed" });
+      return createError(400, "Product creation failed");
     }
 
     return successHandler(res, {
@@ -39,4 +41,33 @@ const handleCreateProduct = async (req, res, next) => {
   }
 };
 
-export { handleCreateProduct };
+const handleGetAllProducts = async (req, res, next) => {
+  try {
+    const page = req.body.page||1;
+    const limit = req.body.limit||5;
+
+    const fetchedproducts = await getAllProducts(page, limit);
+    if (!fetchedproducts) {
+      return createError(404, "Products not found");
+    }
+    const { products, count } = fetchedproducts;
+    return successHandler(res, {
+      statusCode: 201,
+      message: "Products fetched successfully",
+      payload: fetchedproducts,
+      pagination: {
+        totalproducts : count,
+        totalpages : Math.ceil(products.length/limit),
+        currentpage : page,
+        previouspage : page>1?page-1:null,
+        nextpage : page<Math.ceil(products.length/limit)?page+1:null
+
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export { handleCreateProduct, handleGetAllProducts };
