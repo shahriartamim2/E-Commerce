@@ -9,6 +9,7 @@ import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import categoryRouter from "./routes/category.route.js";
 import productRouter from "./routes/product.route.js";
+import morgan from "morgan";
 
 const app = express();
 
@@ -18,6 +19,7 @@ const rateLimiter = rateLimit({
   message: "Too many requests from this IP, please try again after 1 minutes",
 });
 
+app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(rateLimiter);
 app.use(xssClean());
