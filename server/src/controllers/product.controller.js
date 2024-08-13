@@ -1,4 +1,4 @@
-import { checkProductExists, createProduct, deleteProduct, getAllProducts, getSingleProduct } from "../services/productService.js";
+import { checkProductExists, createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from "../services/productService.js";
 import { successHandler } from "./responseHandler.controller.js";
 import createError from "http-errors";
 
@@ -109,9 +109,29 @@ const handleDeleteProduct = async (req, res, next) => {
 };
 
 
+const handleUpdateProduct = async (req, res, next) => {
+  try {
+    const {slug} = req.params;
+
+    const updatedProduct = await updateProduct(slug,  req);
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "Product updated successfully",
+      payload: {
+        updatedProduct,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export {
   handleCreateProduct,
   handleGetAllProducts,
   handleGetSingleProduct,
   handleDeleteProduct,
+  handleUpdateProduct,
 };
