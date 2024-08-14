@@ -1,13 +1,8 @@
+import React from 'react'
+import Index from './routes/Index'
 
-
-function App() {
-
-
-  return (
-    <>
-      <h1>App</h1>
-    </>
-  )
+const App = () => {
+  return <Index/>
 }
 
 export default App
