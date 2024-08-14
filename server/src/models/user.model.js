@@ -25,9 +25,8 @@ const userSchema = new Schema(
       set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
     },
     image: {
-      type: Buffer,
-      contentType: String,
-      required: [true, "User image is required"],
+      type: String,
+      // required: [true, "User image is required"],
     },
     phone: {
       type: String,

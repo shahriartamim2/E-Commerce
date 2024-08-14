@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-const checkUserExists = async (req, res, next) => {
+const checkUserExists = async (email) => {
   return await User.findOne({ email });
 };
 

@@ -8,25 +8,36 @@ import sendEmailWithNodeMailer from "../../src/helper/email.js";
 import jwt from "jsonwebtoken";
 import { clientUrl, jwtActivationKey, jwtPasswordResetKey } from "../secret.js";
 import manageUserStatus from "../services/manageUserStatus.js";
-import { deleteUserWithId, findUser, findUserWithId, forgotPasswordWithEmail, resetPassword, updateUserPassword, updateUserWithId } from "../services/userService.js";
+import {
+  deleteUserWithId,
+  findUser,
+  findUserWithId,
+  forgotPasswordWithEmail,
+  resetPassword,
+  updateUserPassword,
+  updateUserWithId,
+} from "../services/userService.js";
 import checkUserExists from "../helper/checkUserExists.js";
 import sendEmail from "../helper/sendEmail.js";
-
-
+import { uploadUserImage } from "../helper/cloudinaryImage.js";
 
 const handleprocessRegister = async (req, res, next) => {
   try {
     const { name, email, password, phone, address } = req.body;
-
-    const imageBufferString = req.file.buffer.toString("base64");
+    let image = req.file;
 
     const userExists = await checkUserExists(email);
     if (userExists) {
       throw createError(409, "User already exists. Please login");
     }
 
+    if (image) {
+      const imageUrl = await uploadUserImage(req);
+      image = imageUrl;
+    }
+
     const token = generateToken(
-      { name, email, password, phone, address, image: imageBufferString },
+      { name, email, password, phone, address, image },
       jwtActivationKey,
       "20m"
     );
@@ -54,7 +65,6 @@ const handleprocessRegister = async (req, res, next) => {
     next(error);
   }
 };
-
 
 const handleactiveUserAccount = async (req, res, next) => {
   try {
@@ -153,7 +163,7 @@ const handleupdateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const options = { password: 0 };
-    
+
     const updatedUser = await updateUserWithId(id, options, req);
 
     return successHandler(res, {
@@ -190,7 +200,7 @@ const handleUserStatusById = async (req, res, next) => {
 const handleupdateUserPasswordById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    
+
     const updatedUser = await updateUserPassword(id, req);
 
     return successHandler(res, {
@@ -206,29 +216,27 @@ const handleupdateUserPasswordById = async (req, res, next) => {
 };
 
 const handleUserForgotPassword = async (req, res, next) => {
-try {
-  const {email} = req.body;
-  
-  const token = await forgotPasswordWithEmail(email);
+  try {
+    const { email } = req.body;
 
-  return successHandler(res, {
-    statusCode: 200,
-    message: `Please check your ${email} to activate your account`,
-    payload: {
-      token,
-    },
-  });
+    const token = await forgotPasswordWithEmail(email);
 
-} catch (error) {
-  next(error);
-}
+    return successHandler(res, {
+      statusCode: 200,
+      message: `Please check your ${email} to activate your account`,
+      payload: {
+        token,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
-
 
 const handleUserResetPassword = async (req, res, next) => {
   try {
     const { password, token } = req.body;
-    
+
     await resetPassword(token, password);
 
     return successHandler(res, {

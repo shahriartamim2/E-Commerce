@@ -17,7 +17,7 @@ const fileFilter = (req,file, cb)=>{
     return cb(createError(400, "Please upload an image file"), false);
   }
   if(file.size>MAX_FILE_SIZE){
-    return cb(createError(400, "File size exceeds the limit"), false);
+    return cb(createError(400, "File size should not be greater than 2 mb"), false);
   }
   if(!ALLOWED_FILE_TYPE.includes(file.mimetype)){
     return cb(createError(400,"File type not allowed"), false);
@@ -25,9 +25,9 @@ const fileFilter = (req,file, cb)=>{
   cb(null, true);
 }
 
-const upload = multer({
+const uploadImage = multer({
   storage: storage,
   fileFilter: fileFilter,
 });
 
-export default upload;
+export default uploadImage;
