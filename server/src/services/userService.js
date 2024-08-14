@@ -10,7 +10,7 @@ import sendEmailWithNodeMailer from "../helper/email.js";
 import { generateToken } from "../helper/jsonwebtoken.js";
 import jwt from "jsonwebtoken";
 import sendEmail from "../helper/sendEmail.js";
-import { deleteCloudinaryImage } from "../helper/cloudinaryImage.js";
+import { deleteCloudinaryImage, uploadCloudinaryImage } from "../helper/cloudinaryImage.js";
 
 
 const findUser = async (search, page, limit) => {
@@ -117,7 +117,7 @@ const updateUserWithId = async (id, options, req) => {
       runValidations: true,
       context: "query",
     };
-    await findWithId(User, id, options);
+    const user = await findWithId(User, id, options);
 
     let updates = {};
 
@@ -141,11 +141,27 @@ const updateUserWithId = async (id, options, req) => {
           "Please upload an image of type PNG or JPEG or JPG"
         );
       }
-      if (image.size > 5 * 1024 * 1024) {
-        throw createError(400, "Image size should not exceed 5MB");
+      if (image.size > 2 * 1024 * 1024) {
+        throw createError(400, "Image size should not exceed 2MB");
       }
-      updates.image = image.buffer.toString("base64");
+      const folderName = "Ecommerce/users";
+      const model = "User";
+      const imageUrl = await uploadCloudinaryImage(req, folderName, model);
+      updates.image = imageUrl;
+
+      if (user.image) {
+        try {
+          const userImageUrl = user.image;
+          const result = await deleteCloudinaryImage(userImageUrl, folderName);
+          if (result.result === "ok") {
+            console.log("Image deleted from Cloudinary");
+          }
+        } catch (error) {
+          console.error("Failed to delete image from Cloudinary:", error);
+        }
+      }
     }
+
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
