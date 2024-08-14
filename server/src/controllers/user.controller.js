@@ -19,7 +19,7 @@ import {
 } from "../services/userService.js";
 import checkUserExists from "../helper/checkUserExists.js";
 import sendEmail from "../helper/sendEmail.js";
-import { uploadUserImage } from "../helper/cloudinaryImage.js";
+import { uploadCloudinaryImage } from "../helper/cloudinaryImage.js";
 
 const handleprocessRegister = async (req, res, next) => {
   try {
@@ -31,8 +31,10 @@ const handleprocessRegister = async (req, res, next) => {
       throw createError(409, "User already exists. Please login");
     }
 
+    const folderName = "Ecommerce/users";
+    const model = "User";
     if (image) {
-      const imageUrl = await uploadUserImage(req);
+      const imageUrl = await uploadCloudinaryImage(req, folderName, model);
       image = imageUrl;
     }
 

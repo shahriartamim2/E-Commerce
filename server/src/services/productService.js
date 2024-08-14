@@ -9,7 +9,7 @@ const createProduct = async (product) => {
     quantity,
     sold,
     shipping,
-    imageBufferString,
+    image,
     category,
   } = product;
 
@@ -21,7 +21,7 @@ const createProduct = async (product) => {
     quantity: quantity,
     sold: sold,
     shipping: shipping,
-    image: imageBufferString,
+    image: image,
     category: category,
   };
 

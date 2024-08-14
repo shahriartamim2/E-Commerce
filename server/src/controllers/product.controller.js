@@ -1,3 +1,4 @@
+import { uploadCloudinaryImage } from "../helper/cloudinaryImage.js";
 import { checkProductExists, createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from "../services/productService.js";
 import { successHandler } from "./responseHandler.controller.js";
 import createError from "http-errors";
@@ -9,11 +10,16 @@ const handleCreateProduct = async (req, res, next) => {
     const { name, description, price, quantity, sold, shipping, category } =
       req.body;
 
-    const imageBufferString = req.file.buffer.toString("base64");
-
     const productExists = await checkProductExists(name);
     if (productExists) {
       throw createError(409, "Product already exists");
+    }
+    const folderName = "Ecommerce/products";
+    const model = "Product";
+    let image = req.file;
+    if (image) {
+      const imageUrl = await uploadCloudinaryImage(req, folderName, model);
+      image = imageUrl;
     }
 
     const product = {
@@ -23,7 +29,7 @@ const handleCreateProduct = async (req, res, next) => {
       quantity,
       sold,
       shipping,
-      imageBufferString,
+      image,
       category,
     };
 
