@@ -19,7 +19,7 @@ productRouter.post(
 productRouter.get('/', handleGetAllProducts);
 productRouter.get('/:slug', handleGetSingleProduct);
 productRouter.delete("/:slug",isLoggedIn, isAdmin, handleDeleteProduct);
-productRouter.put("/:slug",isLoggedIn, isAdmin, handleUpdateProduct);
+productRouter.put("/:slug",isLoggedIn, isAdmin,uploadImage.single('image'), handleUpdateProduct);
 
 export default productRouter;
 

@@ -1,4 +1,4 @@
-import { deleteCloudinaryImage } from "../helper/cloudinaryImage.js";
+import { deleteCloudinaryImage, uploadCloudinaryImage } from "../helper/cloudinaryImage.js";
 import Product from "../models/product.model.js";
 import slugify from "slugify";
 import createError from "http-errors";
@@ -36,13 +36,11 @@ const checkProductExists = async (name) => {
   return await Product.findOne({ name });
 };
 
-const getAllProducts = async (search, page =1, limit=5) => {
-      const searchRegExp = new RegExp(".*" + search + ".*", "i");
-      const filter = {
-        $or: [
-          { name: { $regex: searchRegExp } },
-        ],
-      };
+const getAllProducts = async (search, page = 1, limit = 5) => {
+  const searchRegExp = new RegExp(".*" + search + ".*", "i");
+  const filter = {
+    $or: [{ name: { $regex: searchRegExp } }],
+  };
   const count = await Product.find(filter).countDocuments();
   const products = await Product.find(filter)
     .skip((page - 1) * limit)
@@ -72,7 +70,7 @@ const deleteProduct = async (slug) => {
   if (imageUrl) {
     try {
       const result = await deleteCloudinaryImage(imageUrl, folderName);
-      if(result.result ==='ok'){
+      if (result.result === "ok") {
         return result;
       }
     } catch (error) {
@@ -80,8 +78,6 @@ const deleteProduct = async (slug) => {
     }
   }
 };
-
-
 
 const updateProduct = async (slug, req) => {
   try {
@@ -115,7 +111,6 @@ const updateProduct = async (slug, req) => {
         updates[key] = req.body[key];
       }
     }
-
     const image = req.file;
     if (image) {
       if (
@@ -128,10 +123,28 @@ const updateProduct = async (slug, req) => {
           "Please upload an image of type PNG or JPEG or JPG"
         );
       }
-      if (image.size > 5 * 1024 * 1024) {
-        throw createError(400, "Image size should not exceed 5MB");
+      if (image.size > 2 * 1024 * 1024) {
+        throw createError(400, "Image size should not exceed 2MB");
       }
-      updates.image = image.buffer.toString("base64");
+      const folderName = "Ecommerce/products";
+      const model = "Product";
+      const imageUrl = await uploadCloudinaryImage(req, folderName, model);
+      updates.image = imageUrl;
+
+      if (product.image) {
+        try {
+          const productImageUrl = product.image;
+          const result = await deleteCloudinaryImage(
+            productImageUrl,
+            folderName
+          );
+          if (result.result === "ok") {
+            console.log("Image deleted from Cloudinary");
+          }
+        } catch (error) {
+          console.error("Failed to delete image from Cloudinary:", error);
+        }
+      }
     }
 
     const updatedProduct = await Product.findOneAndUpdate(
