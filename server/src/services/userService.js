@@ -10,6 +10,7 @@ import sendEmailWithNodeMailer from "../helper/email.js";
 import { generateToken } from "../helper/jsonwebtoken.js";
 import jwt from "jsonwebtoken";
 import sendEmail from "../helper/sendEmail.js";
+import { deleteCloudinaryImage } from "../helper/cloudinaryImage.js";
 
 
 const findUser = async (search, page, limit) => {
@@ -83,11 +84,24 @@ const deleteUserWithId = async (id, options) => {
         statusCode: 404,
         message: "User not found with this id",
       });
-    }
-    const userImagePath = user.image;
-    deleteImage(userImagePath);
-
+    }  
+    const imageUrl = user.image;
     await User.findByIdAndDelete({ _id: id, isAdmin: false });
+
+
+  const folderName = "Ecommerce/users";
+
+  if (imageUrl) {
+    try {
+      const result = await deleteCloudinaryImage(imageUrl, folderName);
+      if (result.result === "ok") {
+        return result;
+      }
+    } catch (error) {
+      console.error("Failed to delete image from Cloudinary:", error);
+    }
+  }
+
   } catch (error) {
     if (error instanceof mongoose.Error.CastError) {
       throw createError(404, "invalid User Id");

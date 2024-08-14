@@ -29,8 +29,32 @@ const uploadCloudinaryImage = async (req, folderName, model) => {
   }
 };
 
+const deleteCloudinaryImage = async (imageUrl, folderName) => {
+  const arr = imageUrl.split("/");
+  const publicId = arr[arr.length - 1]
+    .replace(".jpg", "")
+    .replace(".png", "")
+    .replace(".jpeg", "")
+    .replace(".", "");
+  try {
+    const result = await cloudinary.uploader.destroy(
+      `${folderName}/${publicId}`
+    );
+    if (result.result === "not found") {
+      console.log("Image not found in Cloudinary.");
+      return null; // Or handle as you see fit
+    }
+    return result;
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    throw error; // Optionally, rethrow the error
+  }
+};
 
 
 
 
-export { uploadCloudinaryImage };
+
+
+
+export { uploadCloudinaryImage, deleteCloudinaryImage };

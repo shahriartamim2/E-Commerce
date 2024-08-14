@@ -100,15 +100,11 @@ const handleDeleteProduct = async (req, res, next) => {
   try {
     const {slug} = req.params;
 
-    const product = await deleteProduct(slug);
+    await deleteProduct(slug);
 
-    if (!product) {
-      return createError(404, "Product not found");
-    }
     return successHandler(res, {
       statusCode: 201,
       message: "Products deleted successfully",
-      payload: product,
     });
   } catch (error) {
     next(error);

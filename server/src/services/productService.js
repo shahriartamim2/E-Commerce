@@ -1,5 +1,7 @@
+import { deleteCloudinaryImage } from "../helper/cloudinaryImage.js";
 import Product from "../models/product.model.js";
 import slugify from "slugify";
+import createError from "http-errors";
 
 const createProduct = async (product) => {
   const {
@@ -57,9 +59,29 @@ const getSingleProduct = async (slug) => {
 };
 
 const deleteProduct = async (slug) => {
-  const result = await Product.findOneAndDelete({ slug: slug });
-  return result;
+  const product = await Product.findOne({ slug });
+  if (!product) {
+    throw createError(404, "Product not found");
+  }
+
+  const imageUrl = product.image;
+  await Product.findOneAndDelete({ slug });
+
+  const folderName = "Ecommerce/products";
+
+  if (imageUrl) {
+    try {
+      const result = await deleteCloudinaryImage(imageUrl, folderName);
+      if(result.result ==='ok'){
+        return result;
+      }
+    } catch (error) {
+      console.error("Failed to delete image from Cloudinary:", error);
+    }
+  }
 };
+
+
 
 const updateProduct = async (slug, req) => {
   try {
