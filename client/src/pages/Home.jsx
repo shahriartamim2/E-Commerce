@@ -1,12 +1,16 @@
 import React from 'react'
+import PageTitle from '../components/PageTitle';
+
 
 const Home = () => {
   return (
-    <div>
+    <>
+  <PageTitle title="Home" />
+      <div>
         <h1>Home</h1>
-        
-    </div>
-  )
+      </div>
+    </>
+  );
 }
 
 export default Home

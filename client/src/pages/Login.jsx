@@ -1,11 +1,13 @@
 import React from 'react'
+import PageTitle from '../components/PageTitle';
 
 const Login = () => {
   return (
-    <div>
-        <h1>Login</h1>
-    </div>
-  )
+    <>
+      <PageTitle title="Login" />
+      <h1>Login</h1>
+    </>
+  );
 }
 
 export default Login

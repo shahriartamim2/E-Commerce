@@ -1,11 +1,13 @@
 import React from 'react'
+import PageTitle from '../components/PageTitle';
 
 const Cart = () => {
   return (
-    <div>
-        <h1>Cart</h1>
-    </div>
-  )
+    <>
+      <PageTitle title="Cart" />
+      <h1>Cart</h1>
+    </>
+  );
 }
 
 export default Cart

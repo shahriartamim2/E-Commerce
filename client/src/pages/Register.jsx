@@ -1,11 +1,14 @@
 import React from 'react'
+import PageTitle from '../components/PageTitle';
 
 const Register = () => {
   return (
-    <div>
-        <h1>Register</h1>
-    </div>
-  )
+    <>
+      {" "}
+      <PageTitle title="Register" />
+      <h1>Register</h1>
+    </>
+  );
 }
 
 export default Register
