@@ -7,7 +7,7 @@ const Home = () => {
     <>
   <PageTitle title="Home" />
       <div>
-        <h1>Home</h1>
+        <h1 className='text-red-800'>Home</h1>
       </div>
     </>
   );

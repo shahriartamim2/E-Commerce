@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import React from "react";
 import PropTypes from "prop-types";
 
+
 const PageTitle = (props) => {
   return (
     <Helmet>
@@ -10,9 +11,9 @@ const PageTitle = (props) => {
   );
 };
 
-// Define prop types
 PageTitle.propTypes = {
   title: PropTypes.string.isRequired,
 };
+
 
 export default PageTitle;

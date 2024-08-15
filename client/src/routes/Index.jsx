@@ -5,9 +5,12 @@ import Register from '../pages/Register'
 import Login from '../pages/Login'
 import Cart from '../pages/Cart'
 import Error from '../pages/Error'
+import Navbar from '../layouts/Navbar'
+import Footer from '../layouts/Footer'
 
 const Index = () => {
   return <BrowserRouter>
+  <Navbar/>
   <Routes>
     <Route path='/' element={<Home/>}/>
     <Route path='/register' element={<Register/>}/>
@@ -15,6 +18,8 @@ const Index = () => {
     <Route path='/cart' element={<Cart/>}/>
     <Route path='*' element={<Error/>}/>
   </Routes>
+    <Footer/>
+
   </BrowserRouter>
 }
 
