@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import categoryRouter from "./routes/category.route.js";
 import productRouter from "./routes/product.route.js";
 import morgan from "morgan";
+import cors from "cors";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(xssClean());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("combined"));
+app.use(cors());
 
 
 app.use("/api/", seedRouter);

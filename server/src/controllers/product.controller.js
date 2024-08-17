@@ -51,7 +51,7 @@ const handleGetAllProducts = async (req, res, next) => {
   try {
         const search = req.query.search || "";
     const page = req.body.page||1;
-    const limit = req.body.limit||5;
+    const limit = req.body.limit||10;
 
     const fetchedproducts = await getAllProducts(search, page, limit);
     if (!fetchedproducts) {

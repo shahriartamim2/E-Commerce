@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-gray-900 text-white shadow-md hidden md:block">
+      <nav className="bg-gray-900 text-white shadow-md hidden md:block max-h-30">
         <div className="container mx-auto  py-4 flex items-center justify-around">
           {/* Logo Section */}
           <div className="flex items-center space-x-4">
@@ -100,7 +100,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <nav className="bg-gray-900 text-white shadow-md  md:hidden">
+      <nav className="bg-gray-900 text-white shadow-md h-[70px]  md:hidden">
         <div className="container mx-auto px-4 py-4 flex items-center justify-around ">
           {/* Logo Section */}
           <div className="flex items-center space-x-4">
@@ -134,7 +134,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <nav className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-900 md:hidden">
+      <nav className="fixed  bottom-0 left-0 z-50 w-full h-[60px] bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-900 md:hidden">
         <div className="flex justify-around h-full max-w-lg mx-auto font-medium ">
           <NavLink to="/home" className="py-3">
             <button
