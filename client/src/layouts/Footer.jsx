@@ -1,10 +1,10 @@
-import React from "react";
+import { FaFacebook, FaInstagramSquare, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-200 py-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 text-sm md:text-md  md:mx-auto md:grid-cols-4 gap-8">
           {/* Section 1: Customer Service */}
           <div>
             <h5 className="text-lg font-semibold mb-4">Get to Know Us</h5>
@@ -136,18 +136,15 @@ const Footer = () => {
 
         {/* Bottom Section: Social Media and Legal Info */}
         <div className="mt-8 text-center">
-          <div className="space-x-4 mb-4">
-            <a href="#" className="hover:underline">
-              Facebook
+          <div className="space-x-10 mb-4 flex justify-center ">
+            <a href="#" className="">
+              <FaFacebook className="text-4xl text-slate-500  hover:text-white " />
             </a>
             <a href="#" className="hover:underline">
-              Twitter
+              <FaInstagramSquare className="text-4xl text-slate-500  hover:text-white" />
             </a>
-            <a href="#" className="hover:underline">
-              Instagram
-            </a>
-            <a href="#" className="hover:underline">
-              LinkedIn
+            <a href="#" className="hover:underline ">
+              <FaLinkedin className="text-4xl text-slate-500 hover:text-white" />
             </a>
           </div>
           <p className="mb-4 text-sm">© 2024 Bazaarify. All Rights Reserved.</p>
