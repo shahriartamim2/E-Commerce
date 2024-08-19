@@ -1,15 +1,15 @@
-import React from "react";
+
 import PropTypes from "prop-types";
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="w-56 bg-white shadow-2xl rounded-lg overflow-hidden my-5 py-4 px-1 mx-1 ring-1">
+    <div className="w-40  bg-white shadow-2xl rounded-sm overflow-hidden my-2 py-4 px-1 mx-1 ">
       <img
-        className="w-full h-48 object-cover"
+        className="w-full h-40 object-contain"
         src={product.image}
         alt={product.name}
       />
-      <div className="p-4 h-40 flex flex-col justify-between">
+      <div className="p-2 h-36 flex flex-col justify-between">
         <div>
           <h2 className="text-gray-800 text-lg font-semibold truncate">
             {product.name}
@@ -35,7 +35,7 @@ ProductCard.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,
 };

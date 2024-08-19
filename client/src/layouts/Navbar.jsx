@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-gray-900 text-white shadow-md hidden md:block max-h-30">
+      <nav className="bg-gray-900 text-white shadow-md hidden md:block max-h-30 w-full ">
         <div className="container mx-auto  py-4 flex items-center justify-around">
           {/* Logo Section */}
           <div className="flex items-center space-x-4">
@@ -100,7 +100,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <nav className="bg-gray-900 text-white shadow-md h-[70px]  md:hidden">
+      <nav className="bg-gray-900 text-white shadow-md h-[70px]  md:hidden max-full">
         <div className="container mx-auto px-4 py-4 flex items-center justify-around ">
           {/* Logo Section */}
           <div className="flex items-center space-x-4">

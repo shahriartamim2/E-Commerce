@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import ProductCard from "../components/Product";
+import Category from '../components/Category';
 
 
 
@@ -15,19 +16,18 @@ const Home = () => {
   });
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/products?limit=10", {body})
+      .get("http://localhost:3001/api/products?limit=10",)
       .then((res)=> setProducts(res.data.payload.products))
       .catch((error) => console.error(error));
   }, []);
   return (
     <>
       <PageTitle title="Home" />
-      <div className="bg-mybg">
-        <h1>Choose your product </h1>
-        <p>Click on the product to see more details</p>
-        <div className="flex flex-col sm:mx-40">
+      <div className="lg:mx-40">
+    <Category/>
+        <div className="flex flex-col ">
           <div className=" "> hello i am filter</div>
-          <div className=" flex flex-wrap bg-product">
+          <div className=" flex flex-wrap bg-product justify-center">
             {products.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
