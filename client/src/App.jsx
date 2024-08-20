@@ -3,7 +3,7 @@ import Index from './routes/Index'
 
 const App = () => {
   return (
-    <div className="bg-mybg max-w-screen ">
+    <div >
       <Index />
     </div>
   );

@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  isLoggedin: false,
-  user: null, // or {}
-  error: null,
+    isLoggedin: false,
+    user: null, // or {}
+    error: null,
 };
 
 
@@ -19,23 +19,23 @@ export const login = createAsyncThunk(
 );
 
 export const authSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(login.pending, (state) => {
-      state.isLoggedin = false;
-      state.error = null;
-    });
-    builder.addCase(login.fulfilled, (state, action) => {
-      state.isLoggedin = true;
-      state.user = action.payload;
-    });
-    builder.addCase(login.rejected, (state, action) => {
-      state.isLoggedin = false;
-      state.error = action.error.message;
-    });
-  },
+    name: "auth",
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(login.pending, (state) => {
+            state.isLoggedin = false;
+            state.error = null;
+        });
+        builder.addCase(login.fulfilled, (state, action) => {
+            state.isLoggedin = true;
+            state.user = action.payload;
+        });
+        builder.addCase(login.rejected, (state, action) => {
+            state.isLoggedin = false;
+            state.error = action.error.message;
+        });
+    },
 });
 
 

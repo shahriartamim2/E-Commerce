@@ -20,9 +20,7 @@ const Home = () => {
     <>
       <PageTitle title="Home" />
       <div className="lg:mx-40">
-        <Category />
         <div className="flex flex-col ">
-          <div className=" "> hello i am filter</div>
           <div className=" flex flex-wrap bg-product justify-center">
             {products?.map((product) => (
               <ProductCard key={product._id} product={product} />
