@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Change this based on your authentication logic
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Change this based on your authentication logic
 
   return (
     <>
@@ -20,7 +20,7 @@ const Navbar = () => {
               to="/"
               className="text-4xl font-bold hover:text-gray-400 hidden md:block  "
             >
-              Bazaarify
+              OKroy
             </NavLink>
             <NavLink
               to="/"

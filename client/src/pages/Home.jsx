@@ -1,36 +1,32 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import PageTitle from '../components/PageTitle';
-import axios from 'axios';
 import ProductCard from "../components/Product";
 import Category from '../components/Category';
-
-
+import { fetchProducts } from '../features/products/productsSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [body, setBody] = useState({
-    page: 1,
-    limit: 10,
-  });
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/products?limit=10",)
-      .then((res)=> setProducts(res.data.payload.products))
-      .catch((error) => console.error(error));
-  }, []);
+    dispatch(fetchProducts());
+  }, [])
+  
+
   return (
     <>
       <PageTitle title="Home" />
       <div className="lg:mx-40">
-    <Category/>
+        <Category />
         <div className="flex flex-col ">
           <div className=" "> hello i am filter</div>
           <div className=" flex flex-wrap bg-product justify-center">
-            {products.map((product) => (
+            {products?.map((product) => (
               <ProductCard key={product._id} product={product} />
-            ))}
+            )) || <p>No products available</p>}
           </div>
         </div>
       </div>
