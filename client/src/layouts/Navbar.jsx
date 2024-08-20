@@ -5,10 +5,13 @@ import { FaShopify } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { GoHome } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Change this based on your authentication logic
+    const { isLoggedin } = useSelector((state) => state.user);
+
+    
 
   return (
     <>
@@ -55,7 +58,7 @@ const Navbar = () => {
 
           {/* Account Section */}
           <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
+            {isLoggedin ? (
               <div className="relative">
                 <div
                   className="flex items-center space-x-2 cursor-pointer flex-col"
@@ -80,9 +83,7 @@ const Navbar = () => {
                     </NavLink>
                     <button
                       className="block px-4 py-2 w-full text-left hover:bg-gray-100 hover:text-black"
-                      onClick={() => {
-                        setIsLoggedIn(false); // Implement your logout logic here
-                      }}
+                      onClick={handleLogout}
                     >
                       Logout
                     </button>
