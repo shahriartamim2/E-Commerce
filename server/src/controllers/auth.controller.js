@@ -95,7 +95,6 @@ const handleRefreshToken = async (req, res, next) => {
       id: decoded.id,
       name: decoded.name,
       email: decoded.email,
-      password: decoded.password,
       isAdmin: decoded.isAdmin,
       isBanned: decoded.isBanned,
     };
