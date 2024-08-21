@@ -3,7 +3,7 @@ import Index from './routes/Index'
 
 const App = () => {
   return (
-    <div >
+    <div className='max-w-screen bg-slate-50'>
       <Index />
     </div>
   );
