@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -16,8 +17,8 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  // login opperation with redux thunk
   const dispatch = useDispatch();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login(user)).then(()=>navigate('/profile'));
@@ -38,12 +39,12 @@ const Login = () => {
                   </h3>
                   <p className="text-sm mt-4 text-gray-800">
                     Don&apos;t have an account{" "}
-                    <a
-                      href="javascript:void(0);"
+                    <Link
+                      to="javascript:void(0);"
                       className="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap"
                     >
                       Register here
-                    </a>
+                    </Link>
                   </p>
                 </div>
 
@@ -137,12 +138,12 @@ const Login = () => {
                     </label>
                   </div>
                   <div>
-                    <a
-                      href="jajvascript:void(0);"
+                    <Link
+                      to="jajvascript:void(0);"
                       className="text-blue-600 font-semibold text-sm hover:underline"
                     >
                       Forgot Password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
 

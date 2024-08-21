@@ -1,14 +1,16 @@
-
+import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const isLoggedin = useSelector((state) => state.auth.isLoggedin);
   return (
     <>
       <nav className=" flex justify-around bg-slate-500 p-4 lg:mx-10">
         <div>
-          <a href="/" className="text-4xl font-extrabold hover:text-slate-800">
+          <Link to="/" className="text-4xl font-extrabold hover:text-slate-800">
             OKroy
-          </a>
+          </Link>
         </div>
         <div className="flex ">
           <input
@@ -16,14 +18,21 @@ const Navbar = () => {
             className="w-full h-10 rounded-md"
             placeholder="search..."
           />
-          <button>
-            <Button className="bg-orange-500">Search</Button>
-          </button>
+
+          <Button className="bg-orange-500">
+            Search
+          </Button>
         </div>
         <div>
-          <a href="/login">
-            <Button className="bg-lime-500">signin</Button>
-          </a>
+          {isLoggedin ? (
+            <Link to="/profile">
+              <Button className="bg-lime-500">My Profile</Button>
+            </Link>
+          ) : (
+            <Link to="/login">
+              <Button className="bg-lime-500">signin</Button>
+            </Link>
+          )}
         </div>
       </nav>
     </>

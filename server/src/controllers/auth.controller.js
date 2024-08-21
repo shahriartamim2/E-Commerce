@@ -41,7 +41,6 @@ const handleLogin = async (req, res, next) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      password: user.password,
       isAdmin: user.isAdmin,
       isBanned: user.isBanned,
     };
