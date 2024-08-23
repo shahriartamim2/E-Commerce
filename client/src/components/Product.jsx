@@ -1,7 +1,14 @@
 /* eslint-disable react/prop-types */
+import { useDeleteProductMutation } from "@/services/productsApi";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+  const id = product._id;
+  const [deleteProduct] = useDeleteProductMutation();
+
+  const handleClick = (id) => {
+    deleteProduct(id);
+  }
   return (
     <div className="w-40 bg-white shadow-2xl rounded-sm overflow-hidden my-2 py-4 px-1 mx-1 ">
       <img
@@ -30,7 +37,7 @@ const ProductCard = ({ product }) => {
               <button className="btn btn-warning">Edit</button>
             </Link>
             <Link >
-              <button className="btn btn-error">Delete</button>
+              <button className="btn btn-error" onClick={() => handleClick(id)}>Delete</button>
             </Link>
           </div>
         </div>

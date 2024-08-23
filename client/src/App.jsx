@@ -3,8 +3,10 @@ import Index from './routes/Index'
 
 const App = () => {
   return (
-    <div className="max-w-screen " data-theme="light">
-      <Index />
+    <div className="" data-theme="light">
+      <div className="container w-full ">
+        <Index />
+      </div>
     </div>
   );
 }
