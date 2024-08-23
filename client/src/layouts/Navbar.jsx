@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const isLoggedin = useSelector((state) => state.auth.isLoggedin);
+
   return (
     <>
       <nav className=" flex justify-around bg-slate-500 p-4 lg:mx-10">
@@ -19,18 +19,16 @@ const Navbar = () => {
             placeholder="search..."
           />
 
-          <Button className="bg-orange-500">
-            Search
-          </Button>
+          <button>search</button>
         </div>
         <div>
           {isLoggedin ? (
             <Link to="/profile">
-              <Button className="bg-lime-500">My Profile</Button>
+              <button>myprofile</button>
             </Link>
           ) : (
             <Link to="/login">
-              <Button className="bg-lime-500">signin</Button>
+              <button>signin</button>
             </Link>
           )}
         </div>
@@ -38,5 +36,4 @@ const Navbar = () => {
     </>
   );
 };
-
 export default Navbar;
