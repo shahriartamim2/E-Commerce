@@ -31,13 +31,5 @@ const ProductCard = ({ product }) => {
   );
 };
 
-ProductCard.propTypes = {
-  product: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default ProductCard;
