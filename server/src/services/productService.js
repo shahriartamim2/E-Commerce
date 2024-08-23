@@ -50,9 +50,12 @@ const getAllProducts = async (search, page = 1, limit = 5) => {
   return { products, count };
 };
 
-const getSingleProduct = async (slug) => {
+const getSingleProduct = async (id) => {
   try {
-    const result = await Product.findOne({ slug: slug }).populate("category");
+    const result = await Product.findById(id).populate("category");
+    if (!result) {
+      throw createError(404, "Product not found");
+    }
     return result;
   } catch (error) {
     throw error;

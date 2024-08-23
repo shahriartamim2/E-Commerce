@@ -79,9 +79,9 @@ const handleGetAllProducts = async (req, res, next) => {
 
 const handleGetSingleProduct = async (req, res, next) => {
   try {
-    const {slug} = req.params;
-    console.log(`Received request for product slug: ${slug}`);
-    const product = await getSingleProduct(slug);
+    const {id} = req.params;
+    console.log(`Received request for product slug: ${id}`);
+    const product = await getSingleProduct(id);
     if (!product) {
       return createError(404, "Product not found");
     }

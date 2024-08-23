@@ -17,7 +17,7 @@ productRouter.post(
   handleCreateProduct
 );
 productRouter.get('/', handleGetAllProducts);
-productRouter.get('/:slug', handleGetSingleProduct);
+productRouter.get('/:id', handleGetSingleProduct);
 productRouter.delete("/:slug",isLoggedIn, isAdmin, handleDeleteProduct);
 productRouter.put("/:slug",isLoggedIn, isAdmin,uploadImage.single('image'), handleUpdateProduct);
 
