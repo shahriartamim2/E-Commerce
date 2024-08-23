@@ -19,7 +19,7 @@ const Home = () => {
         isLoading ? (
           <p>Loading...</p>
         ) : error ? (
-          <p>{error}</p>
+          <p>{error.message}</p>
         ) : (
           products.map((product) => (
             <ProductCard key={product._id} product={product} />

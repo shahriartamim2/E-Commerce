@@ -8,6 +8,7 @@ import Error from '../pages/Error'
 import Navbar from '../layouts/Navbar'
 import Footer from '../layouts/Footer'
 import Profile from '../pages/Profile'
+import EditProduct from '@/pages/EditProduct'
 
 const Index = () => {
   return <BrowserRouter>
@@ -19,6 +20,7 @@ const Index = () => {
     <Route path='/login' element={<Login/>}/>
     <Route path='/cart' element={<Cart/>}/>
     <Route path='/profile' element={<Profile/>}/>
+    <Route path='/products/edit/:id' element={<EditProduct/>}/>
     <Route path='*' element={<Error/>}/>
   </Routes>
     <Footer/>

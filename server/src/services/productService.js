@@ -51,9 +51,12 @@ const getAllProducts = async (search, page = 1, limit = 5) => {
 };
 
 const getSingleProduct = async (slug) => {
-  const result = await Product.findOne({ slug: slug }).populate("category");
-
-  return result;
+  try {
+    const result = await Product.findOne({ slug: slug }).populate("category");
+    return result;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const deleteProduct = async (slug) => {

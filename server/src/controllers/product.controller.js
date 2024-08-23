@@ -80,15 +80,17 @@ const handleGetAllProducts = async (req, res, next) => {
 const handleGetSingleProduct = async (req, res, next) => {
   try {
     const {slug} = req.params;
-
+    console.log(`Received request for product slug: ${slug}`);
     const product = await getSingleProduct(slug);
     if (!product) {
       return createError(404, "Product not found");
     }
     return successHandler(res, {
       statusCode: 201,
-      message: "Products fetched successfully",
-      payload: product,
+      message: "Product fetched successfully",
+      payload: {
+        product,
+      },
     });
   } catch (error) {
     next(error);
