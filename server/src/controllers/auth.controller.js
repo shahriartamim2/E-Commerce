@@ -50,12 +50,13 @@ const handleLogin = async (req, res, next) => {
     const refreshToken = generateToken(infoInToken, jwtRefreshKey, "7d");
     setRefreshTokenCookie(res, refreshToken);
 
-    const userWithoutPassword = user.toObject();
-    delete userWithoutPassword.password;
+    const userInfo = user.toObject();
+    delete userInfo.password;
 
     return successHandler(res, {
       statusCode: 200,
       message: "User logged in Succesfully",
+      payload: { user: userInfo },
     });
   } catch (error) {
     next(error);
