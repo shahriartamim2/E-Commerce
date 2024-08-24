@@ -17,11 +17,11 @@ const Navbar = () => {
             placeholder="search..."
           />
 
-          <button className="btn btn-outline btn-accent">Accent</button>
+          <button className="btn btn-outline btn-accent">Search</button>
         </div>
         <div>
-            <Link to="/profile">
-              <button>myprofile</button>
+            <Link to="/login">
+            <button className="btn btn-active btn-accent">Login</button>
             </Link>
         </div>
       </nav>

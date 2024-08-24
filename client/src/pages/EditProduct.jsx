@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const EditProduct = () => {
     const { id } = useParams();
-    const res = useGetProductByIdQuery(id);
+    const res = useGetProductByIdQuery();
     const { isLoading, data, error } = res;
 
     const [updatedProduct, setUpdatedProduct] = useState({

@@ -1,45 +1,68 @@
-import { useLoginUserQuery } from "@/services/authApi";
-import { useState } from "react";
+import { useState } from 'react';
+import { useLoginUserMutation } from '@/services/authApi';
+// import { useDispatch } from 'react-redux';
+// import { setUser } from '@/features/auth/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { setUser } from '@/features/auth/userSlice';
 
 const Login = () => {
-  
+  const [loginUser, { isLoading, error }] = useLoginUserMutation();
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const [user, setUser] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+    try {
+
+      const result = await loginUser(user).unwrap();
+      console.log('Login successful:', result);
+      const loggedInUser = result.payload.userWithoutPassword;
+      console.log(loggedInUser)
+      setUser(loggedInUser)
+      navigate('/profile'); 
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
 
   return (
-    <div className="flex flex-col justify-center gap-6 ">
-      <form action="" onSubmit={handleSubmit}>
-        <div >
-          <p htmlFor="email">Email</p>
+    <div className="flex flex-col justify-center gap-6">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             name="email"
             value={user.email}
             className="input input-bordered w-full max-w-xs"
             onChange={handleChange}
+            required
           />
         </div>
         <div>
-          <p htmlFor="password">Password</p>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
             value={user.password}
             className="input input-bordered w-full max-w-xs"
             onChange={handleChange}
+            required
           />
         </div>
-        <button type="submit" className="btn btn-outline btn-accent">Login</button>
+        <button type="submit" className="btn btn-outline btn-accent" disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Login'}
+        </button>
+        {error && <p className="text-red-500">Login failed: {error.data?.message || error.status}</p>}
       </form>
     </div>
   );
