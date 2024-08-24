@@ -37,17 +37,15 @@ const handleLogin = async (req, res, next) => {
 
     // geneerate jwt token and save in in cookis
     // image in token makes the token too large so we will not include image in token
-    const userInToken = {
+    const infoInToken = {
       id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      isBanned: user.isBanned,
     };
-    const accessToken = generateToken(userInToken, jwtAccessKey, "5m");
+    const accessToken = generateToken(infoInToken, jwtAccessKey, "5m");
     setAccessTokenCookie(res, accessToken);
 
-    const refreshToken = generateToken(userInToken, jwtRefreshKey, "7d");
+    const refreshToken = generateToken(infoInToken, jwtRefreshKey, "7d");
     setRefreshTokenCookie(res, refreshToken);
 
     const userWithoutPassword = user.toObject();
@@ -56,9 +54,7 @@ const handleLogin = async (req, res, next) => {
     return successHandler(res, {
       statusCode: 200,
       message: "User logged in Succesfully",
-      payload: {
-        userWithoutPassword,
-      },
+      
     });
   } catch (error) {
     next(error);

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authApi } from '@/services/authApi';
+
 
 // Create a slice for user data
 const userSlice = createSlice({
