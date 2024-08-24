@@ -1,21 +1,22 @@
 import axios from "axios";
 import { logout } from "@/features/auth/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { clearUserInfo } from "@/services/localStorage";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const user = useSelector((state)=> state.user);
-  console.log(user);
+  const dispatch = useDispatch();
 
   const handleClick = async () => {
     try {
       const response = await axios.post("http://localhost:3001/api/auth/logout", null, { withCredentials: true });
       console.log("Logout successful:", response.data);
-      logout();  // This should log the user out
-      navigate("/");  // Navigate to the home page after logout
+      dispatch(logout());  
+      clearUserInfo();
+      navigate("/"); 
     } catch (err) {
-      console.error(err);  // Log any errors
+      console.error(err);  
     }
   };
 

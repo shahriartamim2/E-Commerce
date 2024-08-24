@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useLoginUserMutation } from '@/services/authApi';
-// import { useDispatch } from 'react-redux';
-// import { setUser } from '@/features/auth/userSlice';
+import { setUserInfo } from '@/features/auth/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { setUser } from '@/features/auth/userSlice';
+
+import { useDispatch } from 'react-redux';
+import { saveUserInfo } from '@/services/localStorage';
 
 const Login = () => {
   const [loginUser, { isLoading, error }] = useLoginUserMutation();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -22,12 +23,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
       const result = await loginUser(user).unwrap();
       console.log('Login successful:', result);
-      const loggedInUser = result.payload.userWithoutPassword;
-      console.log(loggedInUser)
-      setUser(loggedInUser)
+      const userInfo = result.payload.user;
+      dispatch(setUserInfo(userInfo));
+      saveUserInfo(userInfo);
       navigate('/profile'); 
     } catch (error) {
       console.error('Login failed:', error);

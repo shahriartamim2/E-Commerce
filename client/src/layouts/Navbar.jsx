@@ -23,6 +23,9 @@ const Navbar = () => {
             <Link to="/login">
             <button className="btn btn-active btn-accent">Login</button>
             </Link>
+            <Link to="/profile">
+            <button className="btn btn-active btn-accent">profile</button>
+            </Link>
         </div>
       </nav>
     </>
