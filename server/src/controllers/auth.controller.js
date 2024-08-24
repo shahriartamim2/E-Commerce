@@ -41,6 +41,8 @@ const handleLogin = async (req, res, next) => {
       id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
+      isBanned: user.isBanned
     };
     const accessToken = generateToken(infoInToken, jwtAccessKey, "5m");
     setAccessTokenCookie(res, accessToken);
@@ -54,7 +56,6 @@ const handleLogin = async (req, res, next) => {
     return successHandler(res, {
       statusCode: 200,
       message: "User logged in Succesfully",
-      
     });
   } catch (error) {
     next(error);
