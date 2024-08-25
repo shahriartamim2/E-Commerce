@@ -1,7 +1,12 @@
 
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+   const user = useSelector((state)=> state.user.userInfo)
+   const isLoggedIn = useSelector((state)=> state.user.isLoggedIn)
+  const {isAdmin} = useSelector((state) => state.user.userInfo) || false;
+
   return (
     <>
       <nav className=" flex justify-around bg-slate-500 p-4">
@@ -17,12 +22,29 @@ const Navbar = () => {
             placeholder="search..."
           />
 
-          <button className="btn btn-outline btn-accent">Accent</button>
+          <button className="btn btn-outline btn-accent">Search</button>
         </div>
         <div>
+        {
+            isLoggedIn ? isAdmin ? (
+            <>
             <Link to="/profile">
-              <button>myprofile</button>
+              <button className="btn btn-active btn-accent">profile</button>
             </Link>
+              <Link to="/dashboard">
+            <button className="btn btn-active btn-accent">Dashboard</button>
+            </Link>
+              </>
+            ): (
+              <Link to="/profile">
+                <button className="btn btn-active btn-accent">profile</button>
+              </Link>
+          ):(
+                <Link to="/login">
+                  <button className="btn btn-active btn-accent">Login</button>
+                </Link>
+          )
+        }
         </div>
       </nav>
     </>

@@ -20,6 +20,15 @@ const rateLimiter = rateLimit({
   message: "Too many requests from this IP, please try again after 1 minutes",
 });
 
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept',
+    'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+  credentials: true
+}
+
+
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(rateLimiter);
@@ -27,7 +36,7 @@ app.use(xssClean());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("combined"));
-app.use(cors());
+app.use(cors(corsOptions));
 
 
 app.use("/api/", seedRouter);
