@@ -103,6 +103,7 @@ const handleRefreshToken = async (req, res, next) => {
     return successHandler(res, {
       statusCode: 200,
       message: "Access token generated Succesfully",
+      payload: {user: decoded},
     });
   } catch (error) {
     next(error);
