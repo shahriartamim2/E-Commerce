@@ -40,7 +40,7 @@ const EditProduct = () => {
     };
 
 
-    const handleSubmit = (e, id) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         
     }
@@ -53,7 +53,7 @@ const EditProduct = () => {
                     :
                     (<div>
                         <h1>Edit Product</h1>
-                        <form onSubmit={()=>handleSubmit(id)}>
+                        <form onSubmit={()=>handleSubmit()}>
                             <div>
                                 <p htmlFor="name">Name</p>
                                 <input type="text" id="name" name="name" value={updatedProduct.name} onChange={handleChange} className="input input-bordered w-full max-w-xs" />
