@@ -1,3 +1,4 @@
+import Logout from "@/components/Logout";
 
 const Profile = () => {
 
@@ -5,9 +6,7 @@ const Profile = () => {
   return (
     <div>
       <h1>hi</h1>
-      <button className="btn btn-error">
-        Logout
-      </button>
+      <Logout/>
     </div>
   );
 };

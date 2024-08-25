@@ -140,6 +140,7 @@ const handleAuthCheck = async (req, res, next) => {
     if (!decoded) {
       throw createError(401, "Invalid Token. Please login again");
     }
+    
 
     return successHandler(res, {
       statusCode: 200,
@@ -147,7 +148,7 @@ const handleAuthCheck = async (req, res, next) => {
       payload: { user: decoded },
     });
   } catch (error) {
-    throw(error);
+    next(error);
   }
 
 }
