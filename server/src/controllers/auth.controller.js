@@ -125,8 +125,32 @@ const handleProtectedRoute = async (req, res, next) => {
       message: "Protected route accessed Succesfully",
     });
   } catch (error) {
-    next(error);
+    throw(error);
   }
 };
 
-export { handleLogin, handleLogout, handleRefreshToken, handleProtectedRoute };
+const handleAuthCheck = async (req, res, next) => {
+  try {
+    const oldAccessToken = req.cookies.accessToken;
+    if (!oldAccessToken) {
+      throw createError(403, "Access Denied. No token found");
+    }
+    const decoded = jwt.verify(oldAccessToken, jwtAccessKey);
+    if (!decoded) {
+      throw createError(403, "Invalid Token. Please login again");
+    }
+
+    return successHandler(res, {
+      statusCode: 200,
+      message: "Protected route accessed Succesfully",
+      payload: { user: decoded },
+    });
+  } catch (error) {
+    throw(error);
+  }
+
+}
+
+
+
+export { handleLogin, handleLogout, handleRefreshToken, handleProtectedRoute, handleAuthCheck };
