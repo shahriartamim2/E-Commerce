@@ -133,11 +133,11 @@ const handleAuthCheck = async (req, res, next) => {
   try {
     const oldAccessToken = req.cookies.accessToken;
     if (!oldAccessToken) {
-      throw createError(403, "Access Denied. No token found");
+      throw createError(401, "Access Denied. No token found");
     }
     const decoded = jwt.verify(oldAccessToken, jwtAccessKey);
     if (!decoded) {
-      throw createError(403, "Invalid Token. Please login again");
+      throw createError(401, "Invalid Token. Please login again");
     }
 
     return successHandler(res, {
