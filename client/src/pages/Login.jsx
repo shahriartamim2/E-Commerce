@@ -1,14 +1,8 @@
 import { useState } from 'react';
-import { useLoginUserMutation } from '@/services/authApi';
-import { setUserInfo } from '@/features/auth/userSlice';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { saveUserInfo } from '@/services/localStorage';
+
 
 const Login = () => {
-  const [loginUser, { isLoading, error }] = useLoginUserMutation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -19,22 +13,10 @@ const Login = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await loginUser(user).unwrap();
-      const userInfo = result.payload.user;
-      dispatch(setUserInfo(userInfo));
-      saveUserInfo(userInfo);
-      navigate('/profile'); 
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-  };
 
   return (
     <div className="flex flex-col justify-center gap-6">
-      <form onSubmit={handleSubmit}>
+      <form >
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -57,10 +39,7 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" className="btn btn-outline btn-accent" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-        {error && <p className="text-red-500">Login failed: {error.data?.message || error.status}</p>}
+        
       </form>
     </div>
   );
