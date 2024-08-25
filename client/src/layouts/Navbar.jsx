@@ -1,8 +1,16 @@
-
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { authCheck } from '../features/auth/authSlice';
+import { useEffect } from "react";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
+  useEffect(() => {
+    dispatch(authCheck());
+  }, [dispatch]);
 
   return (
     <>
@@ -22,9 +30,14 @@ const Navbar = () => {
           <button className="btn btn-outline btn-accent">Search</button>
         </div>
         <div>
-          <Link to="/login">
-            <button className="btn btn-active btn-accent">Login</button>
-          </Link>
+          {isAuthenticated ? (
+            <div>
+              <img src={user.image} alt={user.name} />
+              <span>{user.name}</span>
+            </div>
+          ) : (
+            <span>Login</span>
+          )}
           <Link to="/profile">
             <button className="btn btn-active btn-accent">profile</button>
           </Link>

@@ -10,7 +10,7 @@ const authRouter = Router();
 
 authRouter.post("/login", validateUserLogin, runValidation, isLoggedOut, handleLogin);
 authRouter.post("/logout",isLoggedIn, handleLogout);
-authRouter.get("/refresh-token",handleRefreshToken);
+authRouter.post("/refresh-token",handleRefreshToken);
 authRouter.get("/protected",handleProtectedRoute);
 authRouter.get("/check",handleAuthCheck);
 
