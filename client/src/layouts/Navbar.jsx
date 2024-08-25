@@ -32,18 +32,19 @@ const Navbar = () => {
         <div>
           {isAuthenticated ? (
             <div>
-              <img src={user.image} alt={user.name} />
-              <span>{user.name}</span>
+              <Link to="/profile">
+                <button className="btn btn-active btn-accent">{user.name}</button>
+              </Link>
+              <Link to="/dashboard">
+                <button className="btn btn-active btn-accent">Dashboard</button>
+              </Link>
             </div>
           ) : (
-            <span>Login</span>
+              <Link to="/login">
+                <button className="btn btn-active btn-accent">Login</button>
+              </Link>
           )}
-          <Link to="/profile">
-            <button className="btn btn-active btn-accent">profile</button>
-          </Link>
-          <Link to="/dashboard">
-            <button className="btn btn-active btn-accent">Dashboard</button>
-          </Link>
+          
         </div>
       </nav>
     </>

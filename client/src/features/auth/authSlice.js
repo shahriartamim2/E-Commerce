@@ -1,29 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Thunk to check if the user is authenticated on app load
+
+// Thunk to check if the user is authenticated and handle token refresh
 export const authCheck = createAsyncThunk(
     'auth/authCheck',
-    async (_, { rejectWithValue }) => {
+    async (_, { dispatch, rejectWithValue }) => {
         try {
             const response = await axios.get('/api/auth/check', { withCredentials: true });
-            return response.data.user;  // Returns the user data if authenticated
+            return response.data.payload.user;
         } catch (error) {
-            return rejectWithValue(error.response.data);  // Returns error message if not authenticated
+            if (error.response?.status === 401 && error.response.data.message === 'Access token expired') {
+                // Attempt to refresh the token
+                try {
+                    const refreshResponse = await axios.post('/api/auth/refresh', {}, { withCredentials: true });
+                    return refreshResponse.data.payload.user; 
+                } catch (refreshError) {
+                    return rejectWithValue('Session expired. Please log in again.');
+                }
+            }
+            return rejectWithValue('Not authenticated');
         }
     }
 );
 
-const initialState = {
-    user: null,  // Stores the authenticated user's data
-    isAuthenticated: false,  // Boolean to check if the user is authenticated
-    status: 'idle',  // Status of the auth check request
-    error: null,  // Error message if the auth check fails
-};
-
 const authSlice = createSlice({
     name: 'auth',
-    initialState,
+    initialState: {
+        user: null,
+        isAuthenticated: false,
+        status: 'idle',
+        error: null,
+    },
     reducers: {
         logOut: (state) => {
             state.user = null;
@@ -37,7 +45,7 @@ const authSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(authCheck.fulfilled, (state, action) => {
-                state.user = action.payload.user;
+                state.user = action.payload;
                 state.isAuthenticated = true;
                 state.status = 'succeeded';
             })
