@@ -1,34 +1,32 @@
-import { useState } from 'react';
-import { useLoginUserMutation } from '@/services/authApi';
-import { setUserInfo } from '@/features/auth/userSlice';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { saveUserInfo } from '@/services/localStorage';
+import { setUser } from "@/features/auth/authSlice";
+import { useLoginMutation } from "@/services/authApi";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [loginUser, { isLoading, error }] = useLoginUserMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
+  const [login, {isError, isLoading, isSuccess}] = useLoginMutation();
+
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async  (e) => {
     e.preventDefault();
     try {
-      const result = await loginUser(user).unwrap();
-      const userInfo = result.payload.user;
-      dispatch(setUserInfo(userInfo));
-      saveUserInfo(userInfo);
-      navigate('/profile'); 
+      const res = await login(credentials).unwrap();
+      dispatch(setUser(res.payload.user));
+      navigate('/profile');
     } catch (error) {
-      console.error('Login failed:', error);
+      console.log("Failed to login",error);
     }
   };
 
@@ -40,7 +38,7 @@ const Login = () => {
           <input
             type="email"
             name="email"
-            value={user.email}
+            value={credentials.email}
             className="input input-bordered w-full max-w-xs"
             onChange={handleChange}
             required
@@ -51,16 +49,13 @@ const Login = () => {
           <input
             type="password"
             name="password"
-            value={user.password}
+            value={credentials.password}
             className="input input-bordered w-full max-w-xs"
             onChange={handleChange}
             required
           />
         </div>
-        <button type="submit" className="btn btn-outline btn-accent" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-        {error && <p className="text-red-500">Login failed: {error.data?.message || error.status}</p>}
+        <button className="btn btn-active btn-accent">Submit</button>
       </form>
     </div>
   );

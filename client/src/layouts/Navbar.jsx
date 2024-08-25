@@ -1,11 +1,16 @@
-
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { authCheck } from '../features/auth/authSlice';
+import { useEffect } from "react";
 
 const Navbar = () => {
-   const user = useSelector((state)=> state.user.userInfo)
-   const isLoggedIn = useSelector((state)=> state.user.isLoggedIn)
-  const {isAdmin} = useSelector((state) => state.user.userInfo) || false;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    dispatch(authCheck());
+  }, [dispatch]);
 
   return (
     <>
@@ -25,26 +30,21 @@ const Navbar = () => {
           <button className="btn btn-outline btn-accent">Search</button>
         </div>
         <div>
-        {
-            isLoggedIn ? isAdmin ? (
-            <>
-            <Link to="/profile">
-              <button className="btn btn-active btn-accent">profile</button>
-            </Link>
-              <Link to="/dashboard">
-            <button className="btn btn-active btn-accent">Dashboard</button>
-            </Link>
-              </>
-            ): (
+          {isAuthenticated ? (
+            <div>
               <Link to="/profile">
-                <button className="btn btn-active btn-accent">profile</button>
+                <button className="btn btn-active btn-accent">{user.name}</button>
               </Link>
-          ):(
-                <Link to="/login">
-                  <button className="btn btn-active btn-accent">Login</button>
-                </Link>
-          )
-        }
+              <Link to="/dashboard">
+                <button className="btn btn-active btn-accent">Dashboard</button>
+              </Link>
+            </div>
+          ) : (
+              <Link to="/login">
+                <button className="btn btn-active btn-accent">Login</button>
+              </Link>
+          )}
+          
         </div>
       </nav>
     </>
