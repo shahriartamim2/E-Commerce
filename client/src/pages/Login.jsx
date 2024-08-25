@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useLoginUserMutation } from '@/services/authApi';
 import { setUserInfo } from '@/features/auth/userSlice';
 import { useNavigate } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/services/localStorage';
 
@@ -24,7 +23,6 @@ const Login = () => {
     e.preventDefault();
     try {
       const result = await loginUser(user).unwrap();
-      console.log('Login successful:', result);
       const userInfo = result.payload.user;
       dispatch(setUserInfo(userInfo));
       saveUserInfo(userInfo);

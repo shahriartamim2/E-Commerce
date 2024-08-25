@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 import { useDeleteProductMutation } from "@/services/productsApi";
 import { Link } from "react-router-dom";
 
@@ -6,8 +7,8 @@ const ProductCard = ({ product }) => {
   const id = product._id;
   const [deleteProduct] = useDeleteProductMutation();
 
-  const handleClick = (id) => {
-    deleteProduct(id);
+  const handleClick = async (id) => {
+    await deleteProduct(id);
   }
   return (
     <div className="w-40 bg-white shadow-2xl rounded-sm overflow-hidden my-2 py-4 px-1 mx-1 ">

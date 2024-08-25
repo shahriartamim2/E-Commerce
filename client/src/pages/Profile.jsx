@@ -1,12 +1,33 @@
 import axios from "axios";
-import { logout } from "@/features/auth/userSlice";
+import { logout, setUserInfo } from "@/features/auth/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { clearUserInfo } from "@/services/localStorage";
+import { clearUserInfo, getUserInfo } from "@/services/localStorage";
+import { useEffect } from "react";
+import api from "@/services/axiosInterceptor";
 
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const fetchUserProfile = async (id) => {
+    try {
+      const response = await api.get(`/users/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch user profile:', error);
+    }
+  };
+  
+  useEffect(() => {
+    const user = getUserInfo();
+    const id = user._id;
+    fetchUserProfile(id).then((profile) => {
+      console.log('User profile:', profile);
+      dispatch(setUserInfo(profile.payload.user));
+    });
+  }, [])
+  
 
   const handleClick = async () => {
     try {

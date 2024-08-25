@@ -1,10 +1,10 @@
-import { useGetProductByIdQuery } from "@/services/productsApi";
+import { useGetProductByIdQuery, useUpdateProductMutation } from "@/services/productsApi";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const EditProduct = () => {
     const { id } = useParams();
-    const res = useGetProductByIdQuery();
+    const res = useGetProductByIdQuery(id);
     const { isLoading, data, error } = res;
 
     const [updatedProduct, setUpdatedProduct] = useState({
@@ -40,9 +40,9 @@ const EditProduct = () => {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e, id) => {
         e.preventDefault();
-        console.log(updatedProduct);
+        
     }
 
     return (
@@ -53,7 +53,7 @@ const EditProduct = () => {
                     :
                     (<div>
                         <h1>Edit Product</h1>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={()=>handleSubmit(id)}>
                             <div>
                                 <p htmlFor="name">Name</p>
                                 <input type="text" id="name" name="name" value={updatedProduct.name} onChange={handleChange} className="input input-bordered w-full max-w-xs" />
