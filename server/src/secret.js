@@ -17,6 +17,7 @@ const smtpPass = process.env.SMTP_PASS || "";
 
 const clientUrl = process.env.CLIENT_URL;
 
+
 const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME || "";
 const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY || "";
 const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET || "";
@@ -35,4 +36,5 @@ export {
   cloudinaryCloudName,
   cloudinaryApiKey,
   cloudinaryApiSecret,
+
 };
