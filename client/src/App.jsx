@@ -1,7 +1,16 @@
 
+import { useDispatch } from 'react-redux';
 import Index from './routes/Index'
+import { useEffect } from 'react';
+import { authCheck } from './features/auth/authSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authCheck());
+  }, [dispatch]);
+  
   return (
     <div className="" data-theme="light">
       <div className="container w-full ">

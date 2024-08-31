@@ -1,7 +1,11 @@
 import PageTitle from "@/components/PageTitle";
-
+import ProductCard from "@/components/Product";
+import { useGetProductsQuery } from "@/services/productsApi";
 
 const Home = () => {
+  const { data, isLoading, error } = useGetProductsQuery();
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
@@ -10,7 +14,9 @@ const Home = () => {
         <div className="flex flex-col justify-center">
           <h2>List of products</h2>
           <div className="flex flex-wrap justify-center">
-    product
+            {data.payload.products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
           </div>
         </div>
       </div>

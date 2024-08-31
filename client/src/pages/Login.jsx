@@ -1,13 +1,24 @@
-import { setUser } from "@/features/auth/authSlice";
+import {
+  selectCurrentUserType,
+  selectIsAuthenticated,
+  selectStatus,
+  selectUser,
+  setUser,
+} from "@/features/auth/authSlice";
 import { useLoginMutation } from "@/services/authApi";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [login, {isError, isLoading, isSuccess}] = useLoginMutation();
+  const [login, { isError, isLoading, isSuccess }] = useLoginMutation();
+  const currentUserType = useSelector(selectCurrentUserType);
+  const status = useSelector(selectStatus);
+  const LoadingElement = () => <div>Loading...</div>;
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -19,16 +30,29 @@ const Login = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleSubmit = async  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await login(credentials).unwrap();
       dispatch(setUser(res.payload.user));
-      navigate('/profile');
+      if(res.payload.user){
+        console.log(user);
+        // navigate("/profile");
+      }
     } catch (error) {
-      console.log("Failed to login",error);
+      console.log("Failed to login", error);
     }
   };
+
+  // useEffect(() => {
+  //   if (user) {
+  //     if (user.isAdmin === true) {
+  //       navigate("/profile");
+  //     } else {
+  //       navigate("/dashboard");
+  //     }
+  //   }
+  // }, [user, status]);
 
   return (
     <div className="flex flex-col justify-center gap-6">

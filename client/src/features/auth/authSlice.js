@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 
 const baseUrl = 'http://localhost:3001';
@@ -51,7 +52,7 @@ const authSlice = createSlice({
     },
     reducers: {
         setUser: (state, action) => {
-            state.user = action.payload;  // Fix: Access payload from action
+            state.user = action.payload.user;  // Fix: Access payload from action
             state.isAuthenticated = true;
             state.status = "succeeded";
         },
@@ -81,5 +82,18 @@ const authSlice = createSlice({
 });
 
 export const { setUser, logOut } = authSlice.actions;
+
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectUser = (state) => state.auth.user;
+export const selectStatus = (state) => state.auth.status;
+export const selectCurrentUserType = (state) => {
+    const user = state.auth.user;
+    if(!user){
+        return null;
+    }
+    const isAuthenticated = state.auth.isAuthenticated;
+    return isAuthenticated ? (user.isAdmin ? "Admin" : "Normal") : "Public";
+};
+
 
 export default authSlice.reducer;
