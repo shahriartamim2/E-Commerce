@@ -27,14 +27,14 @@ const ProductCard = ({ product }) => {
           <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
             Add to Cart
           </button>
-          <div>
+          {/* <div>
             <Link to={`/products/edit/${product._id}`} >
               <button className="btn btn-warning">Edit</button>
             </Link>
             <Link >
               <button className="btn btn-error">Delete</button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

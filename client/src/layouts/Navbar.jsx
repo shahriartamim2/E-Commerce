@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { authCheck } from '../features/auth/authSlice';
+import { authCheck, selectCurrentUserType, selectIsAuthenticated, selectStatus, selectUser } from '../features/auth/authSlice';
 import { useEffect } from "react";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const userType = useSelector(selectCurrentUserType);
+  const user = useSelector(selectUser);
+
+
 
   useEffect(() => {
     dispatch(authCheck());
@@ -31,20 +34,29 @@ const Navbar = () => {
         </div>
         <div>
           {isAuthenticated ? (
-            <div>
-              <Link to="/profile">
-                <button className="btn btn-active btn-accent">{user.name}</button>
-              </Link>
-              <Link to="/dashboard">
-                <button className="btn btn-active btn-accent">Dashboard</button>
-              </Link>
-            </div>
+            userType === "Admin" ? (
+              <div>
+                <Link to="/dashboard">
+                  <button className="btn btn-active btn-accent">Admin</button>
+                </Link>
+                <Link to="/profile">
+                  <button className="btn btn-active btn-accent">Profile</button>
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link to="/profile">
+                  <button className="btn btn-active btn-accent">Profile</button>
+                </Link>
+              </div>
+            )
           ) : (
+            <div>
               <Link to="/login">
                 <button className="btn btn-active btn-accent">Login</button>
               </Link>
+            </div>
           )}
-          
         </div>
       </nav>
     </>

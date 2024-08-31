@@ -20,6 +20,11 @@ export const productsApi = createApi({
                     : ['Products'];
             }
         }),
+        addProduct: (build).mutation({
+            query : () =>
+                '/products',
+            invalidatesTags : ['Products']
+        })
 
     })
 })
