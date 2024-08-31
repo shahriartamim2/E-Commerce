@@ -1,17 +1,21 @@
 import Logout from "@/components/Logout";
-import { selectStatus } from "@/features/auth/authSlice";
+import { selectUser } from "@/features/auth/authSlice";
 import { useSelector } from "react-redux";
 
-const Profile = () => {
-  const status = useSelector(selectStatus);
 
-  if (status === "loading") {
-    return <div>Loading...</div>; // You can replace this with a loading spinner or similar
+const Profile = () => {
+  const user = useSelector(selectUser)
+
+  if (!user) {
+    return <div>Loading...</div>;
   }
+
   return (
     <div>
       <h1>Welcome to profile page</h1>
-      <Logout/>
+      <h2>Hello {user.name}</h2>
+
+      <Logout />
     </div>
   );
 };

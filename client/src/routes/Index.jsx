@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
@@ -26,14 +26,14 @@ const Index = () => {
   const LoadingElement = () => <div>Loading...</div>;
 
   const PublicElement = ({ children }) => {
-     return status === "loading" ? <LoadingElement /> : <>{children}</>;
+    return status === "loading" ? <LoadingElement /> : <>{children}</>;
   };
   const NormalElement = ({ children }) => {
     if (status === "loading") return <LoadingElement />;
     if (currentUserType === "Admin" || currentUserType === "Normal") {
       return <>{children}</>;
     } else {
-      return <div>Please login to access this page</div>;
+      <Navigate to='/login' />
     }
   };
   const AdminElement = ({ children }) => {
@@ -41,7 +41,7 @@ const Index = () => {
     if (currentUserType === "Admin") {
       return <>{children}</>;
     } else {
-      return <div>You do not have acces to this page</div>;
+      <Navigate to="/login" />;
     }
   };
 
