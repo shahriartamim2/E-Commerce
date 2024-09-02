@@ -1,21 +1,43 @@
 import Logout from "@/components/Logout";
-import { selectUser } from "@/features/auth/authSlice";
-import { useSelector } from "react-redux";
-
+import {
+  authCheck,
+  selectIsAuthenticated,
+  selectUser,
+} from "@/features/auth/authSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const user = useSelector(selectUser)
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
+  const user = useSelector(selectUser);
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(authCheck());
+  //   }
+  // }, [dispatch, user]);
+
+  // useEffect(() => {
+  //   if (!isAuthenticated && !user) {
+  //     navigate("/login");
+  //   }
+  // }, [isAuthenticated, user, navigate]);
+
 
   return (
-    <div>
-      <h1>Welcome to profile page</h1>
-      <h2>Hello {user.name}</h2>
-
-      <Logout />
+    <div key={isAuthenticated ? user.id : "default"}>
+      {isAuthenticated && user ? (
+        <>
+          <h1>Welcome, {user.name}</h1>
+          <Logout/>
+          {/* Other profile related information */}
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };
