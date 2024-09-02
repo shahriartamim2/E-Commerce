@@ -34,25 +34,15 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await login(credentials).unwrap();
-      dispatch(setUser(res.payload.user));
-      if(res.payload.user){
-        console.log(user);
-        // navigate("/profile");
+      if (res.payload && res.payload.user) {
+        dispatch(setUser(res.payload.user));
+        navigate("/profile");
       }
     } catch (error) {
       console.log("Failed to login", error);
     }
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     if (user.isAdmin === true) {
-  //       navigate("/profile");
-  //     } else {
-  //       navigate("/dashboard");
-  //     }
-  //   }
-  // }, [user, status]);
 
   return (
     <div className="flex flex-col justify-center gap-6">
