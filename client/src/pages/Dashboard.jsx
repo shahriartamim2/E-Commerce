@@ -12,12 +12,10 @@ const Dashboard = () => {
     return (
         <>
             <div>List uf users</div>
-            {data.payload.users.map((user) => {
-                <div key={user._id}>
+            {data.payload.users.map((user) => (<div key={user._id}>
                     <div>user.name</div>
-                    <div>user.email</div>
-                </div>;
-            })}
+                    <div>user.address</div>
+                </div>))}
         </>
     );
 };
