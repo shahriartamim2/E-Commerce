@@ -14,31 +14,23 @@ const Profile = () => {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     dispatch(authCheck());
-  //   }
-  // }, [dispatch, user]);
-
-  // useEffect(() => {
-  //   if (!isAuthenticated && !user) {
-  //     navigate("/login");
-  //   }
-  // }, [isAuthenticated, user, navigate]);
-
-
+  console.log("Profile Component Rendered");
   return (
-    <div key={isAuthenticated ? user.id : "default"}>
-      {isAuthenticated && user ? (
-        <>
-          <h1>Welcome, {user.name}</h1>
-          <Logout/>
-          {/* Other profile related information */}
-        </>
-      ) : (
-        <div>Loading...</div>
-      )}
-    </div>
+    <>
+      <div>This is Profile page</div>
+      <div key={isAuthenticated ? user.id : "default"}>
+        {isAuthenticated && user ? (
+          <>
+            <h1>Welcome, {user.name}</h1>
+            <h1>Welcome,</h1>
+            <Logout/>
+            {/* Other profile related information */}
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
+    </>
   );
 };
 

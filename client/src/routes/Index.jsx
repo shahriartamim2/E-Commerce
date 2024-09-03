@@ -33,7 +33,8 @@ const Index = () => {
     if (currentUserType === "Admin" || currentUserType === "Normal") {
       return <>{children}</>;
     } else {
-      <Navigate to='/login' />
+      <div>You do not have access</div>
+      // <Navigate to='/login' />
     }
   };
   const AdminElement = ({ children }) => {
@@ -41,7 +42,8 @@ const Index = () => {
     if (currentUserType === "Admin") {
       return <>{children}</>;
     } else {
-      <Navigate to="/login" />;
+      
+      // <Navigate to="/login" />;
     }
   };
 

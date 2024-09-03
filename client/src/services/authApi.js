@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-// Define the base API slice
+
 const baseUrl = 'http://localhost:3001/api/auth';
 
 export const authApi = createApi({
@@ -16,6 +16,7 @@ export const authApi = createApi({
                 method: 'POST',
                 body: credentials,
             }),
+            invalidatesTags: ['User']
             // Handle the response and set the user's data in local state or Redux
         }),
         logout: builder.mutation({
@@ -23,6 +24,7 @@ export const authApi = createApi({
                 url: '/logout',
                 method: 'POST',
             }),
+            invalidatesTags: ['User']
         }),
     }),
 });
