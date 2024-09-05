@@ -7,15 +7,15 @@ import Error from "../pages/Error";
 import Navbar from "../layouts/Navbar";
 import Footer from "../layouts/Footer";
 import Profile from "../pages/Profile";
-import EditProduct from "@/pages/EditProduct";
-import Dashboard from "@/pages/Dashboard";
+import EditProduct from "../pages/EditProduct";
+import Dashboard from "../pages/Dashboard";
 import { useSelector } from "react-redux";
 import {
   selectCurrentUserType,
   selectIsAuthenticated,
   selectStatus,
   selectUser,
-} from "@/features/auth/authSlice";
+} from "../features/auth/authSlice";
 
 const Index = () => {
   // const isAuthenticated = useSelector(selectIsAuthenticated);

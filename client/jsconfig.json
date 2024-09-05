@@ -1,12 +1,9 @@
 {
-    "compilerOptions": {
-        // ...
-        "baseUrl": ".",
-        "paths": {
-            "@/*": [
-                "./src/*"
-            ]
-        }
-        // ...
+  "compilerOptions": {
+    "baseUrl": ".", // The base directory for your project
+    "paths": {
+      "@/*": ["src/*"] // This tells it that @/ refers to the src directory
     }
+  },
+  "include": ["src"]
 }
