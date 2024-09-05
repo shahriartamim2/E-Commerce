@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-const serverPort = process.env.SERVER_PORT || 5001;
+const serverPort = process.env.SERVER_PORT || 3001;
 const mongoUrl =
   process.env.MONGO_URL ||'';
 const defaultUserImage =
