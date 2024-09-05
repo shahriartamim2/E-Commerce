@@ -1,4 +1,5 @@
 import { useGetUsersQuery } from "@/services/usersApi";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
     const { data, isLoading, error } = useGetUsersQuery();
@@ -21,15 +22,21 @@ const Dashboard = () => {
     }
 
     return (
-        <>
-            <div>List of users</div>
-            {data.payload.users.map((user) => (
-                <div key={user._id}>
-                    <div>{user.name}</div>
-                    <div>{user.address}</div>
-                </div>
-            ))}
-        </>
+      <>
+        <div className="grid grid-cols-4">
+          <div className="col-span-1 bg-blue-500">
+            <div>
+              <h1>Links</h1>
+            </div>
+            <div className="flex flex-col">
+              <Link>Users</Link>
+              <Link>Categories</Link>
+              <Link>Products</Link>
+            </div>
+          </div>
+          <div className="col-span-3 bg-orange-700"></div>
+        </div>
+      </>
     );
 };
 
