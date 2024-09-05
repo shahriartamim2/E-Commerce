@@ -14,10 +14,12 @@ export const productsApi = createApi({
             query: ({ page = 1, limit = 10} = {}) =>
                 `/products/?page=${page}&limit=${limit}`,
             providesTags: (result) => {
-                const data = result.payload.products;
-                return result
-                    ? [...data.map(({ id }) => ({ type: 'Products', id })), 'Products']
-                    : ['Products'];
+                if(result){
+                    const data = result.payload.products;
+                    return result
+                        ? [...data.map(({ id }) => ({ type: 'Products', id })), 'Products']
+                        : ['Products'];
+                }
             }
         }),
         addProduct: (build).mutation({
