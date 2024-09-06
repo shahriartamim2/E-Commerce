@@ -3,3 +3,6 @@
 @tailwind utilities;
 
 
+.container{
+    box-sizing: border-box;
+}

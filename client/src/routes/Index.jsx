@@ -10,6 +10,7 @@ import Footer from "../layouts/Footer";
 import Profile from "../pages/Profile";
 import EditProduct from "../pages/EditProduct";
 import Dashboard from "../pages/Dashboard";
+import Users from "@/components/Users";
 import { useSelector } from "react-redux";
 import {
   selectCurrentUserType,
@@ -17,6 +18,8 @@ import {
   selectStatus,
   selectUser,
 } from "../features/auth/authSlice";
+import CrudProduct from "@/components/CrudProduct";
+import CrudCategory from "@/components/CrudCategory";
 
 const Index = () => {
   // const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -120,7 +123,11 @@ const Index = () => {
               <Dashboard />{" "}
             </AdminElement>
           }
-        />
+        >
+          <Route path="crud-users" element={<Users/>}/>
+          <Route path="crud-product" element={<CrudProduct/>}/>
+          <Route path="crud-category" element={<CrudCategory/>}/>
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>
