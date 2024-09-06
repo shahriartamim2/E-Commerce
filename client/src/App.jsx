@@ -12,7 +12,7 @@ const App = () => {
   }, [dispatch]);
   
   return (
-    <div className="" data-theme="light">
+    <div className="bg-bgColor" >
       <div className="container w-full ">
         <Index />
       </div>

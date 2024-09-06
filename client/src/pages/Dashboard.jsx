@@ -29,9 +29,9 @@ const Dashboard = () => {
               <h1>Links</h1>
             </div>
             <div className="flex flex-col">
-              <Link>Users</Link>
-              <Link>Categories</Link>
-              <Link>Products</Link>
+              <Link >Users</Link>
+              <Link >Categories</Link>
+              <Link >Products</Link>
             </div>
           </div>
           <div className="col-span-3 bg-orange-700"></div>

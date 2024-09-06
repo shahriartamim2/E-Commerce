@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Register from "../pages/Register";
@@ -33,8 +34,8 @@ const Index = () => {
     if (currentUserType === "Admin" || currentUserType === "Normal") {
       return <>{children}</>;
     } else {
-      <div>You do not have access</div>
-      // <Navigate to='/login' />
+
+      <Navigate to='/login' />
     }
   };
   const AdminElement = ({ children }) => {
@@ -43,7 +44,7 @@ const Index = () => {
       return <>{children}</>;
     } else {
       
-      // <Navigate to="/login" />;
+      <Navigate to="/login" />;
     }
   };
 
