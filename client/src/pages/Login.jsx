@@ -1,3 +1,4 @@
+import PageTitle from "@/components/PageTitle";
 import {
   selectCurrentUserType,
   selectIsAuthenticated,
@@ -45,33 +46,42 @@ const Login = () => {
 
 
   return (
-    <div className="flex flex-col justify-center gap-6">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={credentials.email}
-            className="input input-bordered w-full max-w-xs"
-            onChange={handleChange}
-            required
-          />
+    <>
+      <PageTitle title="Login" />
+      <div className="flex justify-center items-center ">
+        <div className="p-8 m-8 bg-white shadow-2xl rounded-lg">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div>
+              <p className="py-3">
+                <label htmlFor="email">Email : </label>
+              </p>
+              <input
+                type="email"
+                name="email"
+                value={credentials.email}
+                className="input input-bordered w-full max-w-xs"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <p className="py-3">
+                <label htmlFor="password">Password : </label>
+              </p>
+              <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                className="input input-bordered w-full max-w-xs"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <button className="btn btn-active btn-accent">Submit</button>
+          </form>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            className="input input-bordered w-full max-w-xs"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button className="btn btn-active btn-accent">Submit</button>
-      </form>
-    </div>
+      </div>
+    </>
   );
 };
 

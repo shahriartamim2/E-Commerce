@@ -23,7 +23,7 @@ const Navbar = () => {
             OKroy
           </Link>
         </div>
-        <div className="flex ">
+        <div className="flex gap-2">
           <input
             type="text"
             className="input input-bordered input-error w-full max-w-xs"
@@ -53,10 +53,14 @@ const Navbar = () => {
               </div>
             )
           ) : (
-            <div>
+            <div className="flex gap-4">
               <Link to="/login">
                 <button className="btn btn-active btn-accent">Login</button>
               </Link>
+              <Link to="/register">
+                <button className="btn btn-active btn-accent">Register</button>
+              </Link>
+
             </div>
           )}
         </div>
