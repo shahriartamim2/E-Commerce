@@ -116,9 +116,9 @@ const handleDeleteProduct = async (req, res, next) => {
 
 const handleUpdateProduct = async (req, res, next) => {
   try {
-    const {slug} = req.params;
+    const {id} = req.params;
 
-    const updatedProduct = await updateProduct(slug,  req);
+    const updatedProduct = await updateProduct(id,  req);
 
     return successHandler(res, {
       statusCode: 200,

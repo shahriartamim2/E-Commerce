@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className=" flex justify-around bg-slate-500 p-4">
+      <nav className=" flex justify-around bg-seconderyColor  p-4  bg-opacity-50 sticky top-0 shadow-md z-50 backdrop-blur-lg">
         <div>
           <Link to="/" className="text-4xl font-extrabold hover:text-slate-800">
             OKroy
@@ -37,7 +37,9 @@ const Navbar = () => {
             userType === "Admin" ? (
               <div>
                 <Link to="/dashboard">
-                  <button className="btn btn-active btn-accent">Admin-Dashboard</button>
+                  <button className="btn btn-active btn-accent">
+                    Admin-Dashboard
+                  </button>
                 </Link>
                 <Link to="/profile">
                   <button className="btn btn-active btn-accent">Profile</button>

@@ -85,14 +85,14 @@ const deleteProduct = async (slug) => {
   }
 };
 
-const updateProduct = async (slug, req) => {
+const updateProduct = async (id, req) => {
   try {
     const updateOptions = {
       new: true,
       runValidations: true,
       context: "query",
     };
-    const product = await Product.findOne({ slug: slug });
+    const product = await Product.findOne({ _id: id });
     if (!product) {
       throw createError(404, "Product not found");
     }
@@ -154,7 +154,7 @@ const updateProduct = async (slug, req) => {
     }
 
     const updatedProduct = await Product.findOneAndUpdate(
-      { slug: slug },
+      { _id: id },
       updates,
       updateOptions
     );

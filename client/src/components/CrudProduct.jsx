@@ -53,10 +53,10 @@ const CrudProduct = () => {
                     {product.price}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
-                    {product.shipping ? "Admin" : "Normal"}
+                    {product.shipping}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
-                    {product.quantity ? "Banned" : "Allowed"}
+                    {product.quantity}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <Link to={`edit-product/${product._id}`} onClick={handleClick}>edit</Link>
