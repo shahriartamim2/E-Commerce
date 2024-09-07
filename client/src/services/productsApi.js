@@ -22,13 +22,13 @@ export const productsApi = createApi({
                 }
             }
         }),
-        addProduct: (build).mutation({
-            query : () =>
-                '/products',
-            invalidatesTags : ['Products']
+        findSingleProduct: (build).mutation({
+            query : (id) =>
+                `/products/${id}`,
+            providesTags: (result, error, id) => [{ type: 'Products', id }]
         })
 
     })
 })
 
-export const { useGetProductsQuery } = productsApi;
+export const { useGetProductsQuery, useFindSingleProductMutation } = productsApi;

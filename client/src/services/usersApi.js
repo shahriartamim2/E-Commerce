@@ -22,7 +22,12 @@ export const usersApi = createApi({
                 }
             }
         }),
+        getSingleUser: build.query({
+            query: (id) =>
+                `/users/${id}`,
+            providesTags: (result, id) => [{ type: 'User', id }],
+        }),
     })
 })
 
-export const { useGetUsersQuery } = usersApi;
+export const { useGetUsersQuery, useGetSingleUserQuery } = usersApi;

@@ -23,7 +23,7 @@ const Dashboard = () => {
 
     return (
       <>
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-6">
           <div className="col-span-1  flex flex-col justify-center items-center p-4 m-4 bg-cardColor rounded-lg shadow-xl">
             <div className="flex flex-col w-full gap-4">
               <Link
@@ -46,7 +46,7 @@ const Dashboard = () => {
               </Link>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-5">
             <Outlet />
           </div>
         </div>

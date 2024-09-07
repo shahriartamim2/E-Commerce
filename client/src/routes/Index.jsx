@@ -20,6 +20,7 @@ import {
 } from "../features/auth/authSlice";
 import CrudProduct from "@/components/CrudProduct";
 import CrudCategory from "@/components/CrudCategory";
+import EditAccess from "@/components/EditAccess";
 
 const Index = () => {
   // const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -124,8 +125,12 @@ const Index = () => {
             </AdminElement>
           }
         >
-          <Route path="crud-users" element={<Users/>}/>
-          <Route path="crud-product" element={<CrudProduct/>}/>
+          <Route path="crud-users" element={<Users/>}>
+          <Route path='edit-access/:id' element={<EditAccess/>} />
+          </Route>
+          <Route path="crud-product" element={<CrudProduct/>}>
+          <Route path="edit-product/:id" element={<EditProduct/>}/>
+          </Route>
           <Route path="crud-category" element={<CrudCategory/>}/>
         </Route>
       </Routes>
