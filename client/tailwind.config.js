@@ -6,7 +6,7 @@ export default {
     extend: {
       colors: { // 'color' should be 'colors'
         bgColor: ' #ffffcc', // Use hex or valid CSS color names
-        cardColor: '#ffffff',
+        cardColor: '#f2f2f2',
         primaryColor: ' #00e673', // LeafyGreen color as hex (or use 'green' for Tailwind's green)
       },
     },

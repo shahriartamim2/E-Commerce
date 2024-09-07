@@ -37,7 +37,7 @@ const Navbar = () => {
             userType === "Admin" ? (
               <div>
                 <Link to="/dashboard">
-                  <button className="btn btn-active btn-accent">Admin</button>
+                  <button className="btn btn-active btn-accent">Admin-Dashboard</button>
                 </Link>
                 <Link to="/profile">
                   <button className="btn btn-active btn-accent">Profile</button>

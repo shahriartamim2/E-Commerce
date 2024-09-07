@@ -14,10 +14,12 @@ export const usersApi = createApi({
             query: () =>
                 `/users/`,
             providesTags: (result) => {
-                const data = result.payload.users;
-                return result
-                    ? [...data.map(({ id }) => ({ type: 'Products', id })), 'Users']
-                    : ['Users'];
+                if(result){
+                    const data = result.payload.users;
+                    return result
+                        ? [...data.map(({ id }) => ({ type: 'Products', id })), 'Users']
+                        : ['Users'];
+                }
             }
         }),
     })

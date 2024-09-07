@@ -14,7 +14,7 @@ const App = () => {
   
   return (
     <div className="bg-bgColor" >
-      <div className="container w-full ">
+      <div className="w-full">
         <Index />
       </div>
     </div>
