@@ -126,14 +126,14 @@ const Register = () => {
               type="file"
               name="image"
               accept="image/*"
-              className="input input-bordered w-full"
+              className="file-input file-input-bordered w-full max-w-xs"
               onChange={handleChange}
             />
             {errors.image && (
               <p className="text-red-500 text-sm">{errors.image}</p>
             )}
           </div>
-          <button type="submit" className="btn btn-active btn-accent">
+          <button type="submit" className="btn btn-active btn-neutral">
             Register
           </button>
         </form>

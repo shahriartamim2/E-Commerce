@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
   
   return (
-    <div className="w-40 bg-white shadow-2xl rounded-sm overflow-hidden my-2 py-4 px-1 mx-1 ">
+    <div className="w-48 bg-white shadow-2xl overflow-hidden my-2 py-4 px-4 mx-1 rounded-xl  ">
       <img
         className="w-full h-32 object-contain"
         src={product.image}
@@ -24,9 +24,7 @@ const ProductCard = ({ product }) => {
           </p>
         </div>
         <div className="flex flex-col">
-          <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-            Add to Cart
-          </button>
+          <button className="btn btn-active btn-neutral">Add to cart</button>
           {/* <div>
             <Link to={`/products/edit/${product._id}`} >
               <button className="btn btn-warning">Edit</button>

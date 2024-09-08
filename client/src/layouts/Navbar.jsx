@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className=" flex justify-around bg-seconderyColor  p-4  bg-opacity-50 sticky top-0 shadow-md z-50 backdrop-blur-lg">
+      <nav className=" flex justify-around bg-primaryColor  p-4  bg-opacity-50 sticky top-0 shadow-md z-50 backdrop-blur-md">
         <div>
           <Link to="/" className="text-4xl font-extrabold hover:text-slate-800">
             OKroy
@@ -26,11 +26,11 @@ const Navbar = () => {
         <div className="flex gap-2">
           <input
             type="text"
-            className="input input-bordered input-error w-full max-w-xs"
-            placeholder="search..."
+            placeholder="Type here"
+            className="input input-bordered w-full max-w-xs"
           />
 
-          <button className="btn btn-outline btn-accent">Search</button>
+          <button className="btn btn-outline">Search</button>
         </div>
         <div>
           {isAuthenticated ? (
@@ -55,12 +55,11 @@ const Navbar = () => {
           ) : (
             <div className="flex gap-4">
               <Link to="/login">
-                <button className="btn btn-active btn-accent">Login</button>
+                <button className="btn btn-outline">Login</button>
               </Link>
               <Link to="/register">
-                <button className="btn btn-active btn-accent">Register</button>
+                <button className="btn btn-active btn-neutral hover:bg-white hover:text-black">Register</button>
               </Link>
-
             </div>
           )}
         </div>
