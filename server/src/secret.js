@@ -11,8 +11,8 @@ const jwtAccessKey = process.env.JWT_ACCESS_KEY || "123";
 const jwtRefreshKey = process.env.JWT_REFRESH_KEY || "123";
 const jwtPasswordResetKey = process.env.JWT_PASSWORD_RESET_KEY||"123";
 
-const smtpUser = process.env.SMTP_USER || "";
-const smtpPass = process.env.SMTP_PASS || "";
+const smtpUser = process.env.SMTP_USER;
+const smtpPass = process.env.SMTP_PASS;
 
 const clientUrl = process.env.CLIENT_URL;
 

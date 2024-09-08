@@ -21,6 +21,8 @@ import {
 import CrudProduct from "@/components/CrudProduct";
 import CrudCategory from "@/components/CrudCategory";
 import EditAccess from "@/components/EditAccess";
+import VerifyUser from "@/pages/VerifyUser";
+import CheckEmail from "@/pages/CheckEmail";
 
 const Index = () => {
   // const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -78,6 +80,22 @@ const Index = () => {
           element={
             <PublicElement>
               <Login />
+            </PublicElement>
+          }
+        />
+        <Route
+          path="/verify"
+          element={
+            <PublicElement>
+              <VerifyUser />
+            </PublicElement>
+          }
+        />
+        <Route
+          path="/check-email"
+          element={
+            <PublicElement>
+              <CheckEmail />
             </PublicElement>
           }
         />

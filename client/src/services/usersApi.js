@@ -27,7 +27,24 @@ export const usersApi = createApi({
                 `/users/${id}`,
             providesTags: (result, id) => [{ type: 'User', id }],
         }),
+        processRegister: build.mutation({
+            query: (formData) => ({
+                url: "/users/process-register",
+                method: 'POST',
+                body: formData,
+                
+            }),
+            invalidatesTags: [{ type: 'User' }]
+        }),
+        activateUser: build.mutation({
+            query: (token) => ({
+                url: `users/activate`,
+                method: 'POST',
+                body: token,
+            }),
+            invalidatesTags: [{ type: 'User' }]
+        }),
     })
 })
 
-export const { useGetUsersQuery, useGetSingleUserQuery } = usersApi;
+export const { useGetUsersQuery, useGetSingleUserQuery, useProcessRegisterMutation, useActivateUserMutation } = usersApi;

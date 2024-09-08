@@ -1,6 +1,10 @@
+import { useProcessRegisterMutation } from "@/services/usersApi";
 import  { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const [processRegister, {isLoading, error}] = useProcessRegisterMutation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,11 +35,15 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Submit form data
-      console.log("Form submitted", formData);
+      try {
+        await processRegister(formData).unwrap();
+        navigate('/ckeck-email');
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
