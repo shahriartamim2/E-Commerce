@@ -84,7 +84,7 @@ const Index = () => {
           }
         />
         <Route
-          path="/verify"
+          path="/api/users/activate/:token"
           element={
             <PublicElement>
               <VerifyUser />
@@ -143,13 +143,13 @@ const Index = () => {
             </AdminElement>
           }
         >
-          <Route path="crud-users" element={<Users/>}>
-          <Route path='edit-access/:id' element={<EditAccess/>} />
+          <Route path="crud-users" element={<Users />}>
+            <Route path="edit-access/:id" element={<EditAccess />} />
           </Route>
-          <Route path="crud-product" element={<CrudProduct/>}>
-          <Route path="edit-product/:id" element={<EditProduct/>}/>
+          <Route path="crud-product" element={<CrudProduct />}>
+            <Route path="edit-product/:id" element={<EditProduct />} />
           </Route>
-          <Route path="crud-category" element={<CrudCategory/>}/>
+          <Route path="crud-category" element={<CrudCategory />} />
         </Route>
       </Routes>
       <Footer />
