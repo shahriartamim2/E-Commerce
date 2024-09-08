@@ -35,17 +35,23 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        await processRegister(formData).unwrap();
-        navigate('/ckeck-email');
-      } catch (error) {
-        console.error(error);
-      }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (validateForm()) {
+    const formDataToSend = new FormData();
+    // Append each form field to FormData
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    try {
+      await processRegister(formDataToSend).unwrap();
+      navigate("/check-email");
+    } catch (error) {
+      console.error("Registration error:", error);
     }
-  };
+  }
+};
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
