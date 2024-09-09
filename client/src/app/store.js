@@ -5,6 +5,7 @@ import { authApi } from '../services/authApi'
 import { productsApi } from '../services/productsApi'
 import { usersApi } from '../services/usersApi'
 import { setupListeners } from '@reduxjs/toolkit/query'
+import { categoriesApi } from '@/services/categoriesApi'
 
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
         [authApi.reducerPath] : authApi.reducer,
         [productsApi.reducerPath] : productsApi.reducer,
         [usersApi.reducerPath]: usersApi.reducer,
+        [categoriesApi.reducerPath]: categoriesApi.reducer,
         auth: authSlice,
 
     },
@@ -19,7 +21,8 @@ export const store = configureStore({
         getDefaultMiddleware()
             .concat(authApi.middleware)
             .concat(productsApi.middleware)
-            .concat(usersApi.middleware),
+            .concat(usersApi.middleware)
+            .concat(categoriesApi.middleware),
 
 })
 

@@ -4,9 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 
 const Users = () => {
   const {data, isLoading, error} = useGetUsersQuery();
-  console.log(data);
-  if(!data) return <div>No users found</div>
-  // if(!data || !data.payload || !data.payload.user) return <div>No users found </div>
+  if(!data || !data.payload || !data.payload.user) return <div>No users found </div>
   return (
     <>
       <div className="bg-cardColor m-4 p-4 shadow-xl rounded-lg">
