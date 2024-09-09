@@ -37,12 +37,13 @@ export const usersApi = createApi({
             invalidatesTags: [{ type: 'User' }]
         }),
         activateUser: build.mutation({
-            query: (token) => ({
-                url: `users/activate/${token}`,
+            query: ({ token }) => ({  // Destructure to get token string
+                url: `users/activate/${token}`,  // Now token will be the string
                 method: 'POST',
             }),
             invalidatesTags: [{ type: 'User' }]
         }),
+
     })
 })
 

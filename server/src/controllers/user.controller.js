@@ -70,14 +70,13 @@ const handleprocessRegister = async (req, res, next) => {
 
 const handleActivateUserAccount = async (req, res, next) => {
   try {
-    const token = req.params.token;
+    const {token} = req.params;
 
     if (!token) throw createError(400, "Token not found");
 
     try {
       const decoded = jwt.verify(token, jwtActivationKey);
       if (!decoded) throw createError(400, "Unable to verify user");
-      console.log(decoded);
 
       const userExists = await User.findOne({ email: decoded.email });
       if (userExists) {

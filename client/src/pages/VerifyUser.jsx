@@ -12,14 +12,14 @@ const VerifyUser = () => {
     const activateUserByToken = async (token) => {
       if (token) {
         try {
-          // Assuming activateUser is a mutation function that needs to be called with token
           await activateUser({ token }).unwrap();
-          navigate("/login"); // Redirect to the homepage or success page after activation
+          navigate("/login"); 
         } catch (error) {
-          console.error("Activation failed:", error); // Redirect to an error page on failure
+          console.error("Activation failed:", error);
+          return <div>{error.message}</div> 
         }
       } else {
-        navigate("/error"); // Redirect to an error page if no token is provided
+        navigate("/error"); 
       }
     };
 
