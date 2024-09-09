@@ -9,22 +9,21 @@ const VerifyUser = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const activateUserByToken = async () => {
+    const activateUserByToken = async (token) => {
       if (token) {
         try {
           // Assuming activateUser is a mutation function that needs to be called with token
           await activateUser({ token }).unwrap();
-          navigate("/"); // Redirect to the homepage or success page after activation
+          navigate("/login"); // Redirect to the homepage or success page after activation
         } catch (error) {
-          console.error("Activation failed:", error);
-          navigate("/error"); // Redirect to an error page on failure
+          console.error("Activation failed:", error); // Redirect to an error page on failure
         }
       } else {
         navigate("/error"); // Redirect to an error page if no token is provided
       }
     };
 
-    activateUserByToken();
+    activateUserByToken(token);
   }, [token, navigate, activateUser]);
 
   return (

@@ -84,7 +84,7 @@ const Index = () => {
           }
         />
         <Route
-          path="/api/users/activate/:token"
+          path="/activate/:token"
           element={
             <PublicElement>
               <VerifyUser />
@@ -101,6 +101,14 @@ const Index = () => {
         />
         <Route
           path="*"
+          element={
+            <PublicElement>
+              <Error />
+            </PublicElement>
+          }
+        />
+        <Route
+          path="/error"
           element={
             <PublicElement>
               <Error />

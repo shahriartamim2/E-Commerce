@@ -49,7 +49,7 @@ const handleprocessRegister = async (req, res, next) => {
       subject: "Account Activation Email",
       html: `
       <h2>Hello ${name}</h2>
-      <p>Please click the link below to <a href="${clientUrl}/api/users/activate/${token}">activate your account</a></p>
+      <p>Please click the link below to activate your account </br><a href="${clientUrl}/activate/${token}">Click here</a></p>
       `,
     };
 
@@ -68,9 +68,9 @@ const handleprocessRegister = async (req, res, next) => {
   }
 };
 
-const handleactiveUserAccount = async (req, res, next) => {
+const handleActivateUserAccount = async (req, res, next) => {
   try {
-    const token = req.body.token;
+    const token = req.params.token;
 
     if (!token) throw createError(400, "Token not found");
 
@@ -255,7 +255,7 @@ export {
   handlegetUserById,
   handledeleteUserById,
   handleprocessRegister,
-  handleactiveUserAccount,
+  handleActivateUserAccount,
   handleupdateUserById,
   handleUserStatusById,
   handleupdateUserPasswordById,

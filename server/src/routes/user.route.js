@@ -1,5 +1,5 @@
 import {
-  handleactiveUserAccount,
+  handleActivateUserAccount,
   handledeleteUserById,
   handlegetUserById,
   handlegetUsers,
@@ -37,7 +37,7 @@ userRouter.post(
   runValidation,
   handleprocessRegister
 );
-userRouter.post("/activate",isLoggedOut, handleactiveUserAccount);
+userRouter.post("/activate/:token", isLoggedOut, handleActivateUserAccount);
 userRouter.get("/", isLoggedIn,isAdmin, handlegetUsers);
 userRouter.get("/:id([0-9a-fA-F]{24})", isLoggedIn, handlegetUserById);
 userRouter.put(
