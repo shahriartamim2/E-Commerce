@@ -43,8 +43,15 @@ export const usersApi = createApi({
             }),
             invalidatesTags: [{ type: 'User' }]
         }),
+        setUserStatus: build.mutation({
+            query: ({action, id}) =>({
+                url: `users/manage-user-status/${id}`,
+                method: "PUT",
+                body: action
+            })
+        })
 
     })
 })
 
-export const { useGetUsersQuery, useGetSingleUserQuery, useProcessRegisterMutation, useActivateUserMutation } = usersApi;
+export const { useGetUsersQuery, useGetSingleUserQuery, useProcessRegisterMutation, useActivateUserMutation, useSetUserStatusMutation } = usersApi;
