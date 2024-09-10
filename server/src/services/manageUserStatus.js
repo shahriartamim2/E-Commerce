@@ -32,11 +32,8 @@ const manageUserStatus = async(id, action, next)=>{
             if (!userStatus) {
               throw createError(404, "User not found");
             }
-
             
-
             return {successMessage, userStatus};
-
         } catch (error) {
             next(error);
         }

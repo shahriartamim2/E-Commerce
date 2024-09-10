@@ -35,20 +35,20 @@ const Navbar = () => {
         <div>
           {isAuthenticated ? (
             userType === "Admin" ? (
-              <div>
+              <div className="flex gap-4">
                 <Link to="/dashboard">
-                  <button className="btn btn-active btn-accent">
+                  <button className="btn btn-active btn-neutral hover:bg-white hover:text-black">
                     Admin-Dashboard
                   </button>
                 </Link>
                 <Link to="/profile">
-                  <button className="btn btn-active btn-accent">Profile</button>
+                  <button className="btn btn-outline">Profile</button>
                 </Link>
               </div>
             ) : (
               <div>
                 <Link to="/profile">
-                  <button className="btn btn-active btn-accent">Profile</button>
+                  <button className="btn btn-outline">Profile</button>
                 </Link>
               </div>
             )
@@ -58,7 +58,9 @@ const Navbar = () => {
                 <button className="btn btn-outline">Login</button>
               </Link>
               <Link to="/register">
-                <button className="btn btn-active btn-neutral hover:bg-white hover:text-black">Register</button>
+                <button className="btn btn-active btn-neutral hover:bg-white hover:text-black">
+                  Register
+                </button>
               </Link>
             </div>
           )}
