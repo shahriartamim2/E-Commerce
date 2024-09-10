@@ -180,9 +180,11 @@ const handleupdateUserById = async (req, res, next) => {
 };
 
 const handleUserStatusById = async (req, res, next) => {
+  const {id} = req.params;
+  const {action} = req.body;
+  console.log("id");
+  console.log(action);
   try {
-    const id = req.params.id;
-    const action = req.body.action;
 
     const updatedStatus = await manageUserStatus(id, action, next);
 

@@ -47,7 +47,7 @@ export const usersApi = createApi({
             query: ({action, id}) =>({
                 url: `users/manage-user-status/${id}`,
                 method: "PUT",
-                body: action
+                body: {action}
             })
         })
 

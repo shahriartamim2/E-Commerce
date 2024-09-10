@@ -1,10 +1,11 @@
-import { useGetSingleUserQuery } from "@/services/usersApi";
+import { useGetSingleUserQuery, useSetUserStatusMutation } from "@/services/usersApi";
 import  { useState } from "react";
 import { useParams } from "react-router-dom";
 
 function ActionDropdown() {
   const { id } = useParams();
   const { data, isLoading } = useGetSingleUserQuery(id);
+  const [setUserStatus] = useSetUserStatusMutation();
   const [action, setAction] = useState("");
   const [isPopoutVisible, setPopoutVisible] = useState(false); // State to control popout visibility
 
@@ -20,6 +21,11 @@ function ActionDropdown() {
     if (confirmed) {
       // Perform save action here
       console.log("User status changed to:", action);
+      try {
+        setUserStatus({action, id});
+      } catch (error) {
+        console.log(error);
+      }
     }
     setPopoutVisible(false); // Hide the popout after confirmation or cancel
   };
@@ -27,6 +33,8 @@ function ActionDropdown() {
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md max-w-md mx-auto relative">
+      <p>User name:{data.payload.user.name}</p>
+      <p>User email:{data.payload.user.email}</p>
       <span className="block text-lg font-semibold mb-4">
         User Status:{" "}
         <span
