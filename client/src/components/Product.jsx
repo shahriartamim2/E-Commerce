@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 
-import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   
   return (
     <div className="w-48 bg-white shadow-2xl overflow-hidden my-2 py-4 px-4 mx-1 rounded-xl  ">
       <img
-        className="w-full h-32 object-contain"
+        className="w-full h-32 object-contain ring-1 "
         src={product.image}
         alt={product.name}
       />
@@ -25,14 +24,6 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="flex flex-col">
           <button className="btn btn-active btn-neutral">Add to cart</button>
-          {/* <div>
-            <Link to={`/products/edit/${product._id}`} >
-              <button className="btn btn-warning">Edit</button>
-            </Link>
-            <Link >
-              <button className="btn btn-error">Delete</button>
-            </Link>
-          </div> */}
         </div>
       </div>
     </div>

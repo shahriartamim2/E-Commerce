@@ -11,8 +11,12 @@ const Home = () => {
     <>
       <PageTitle title="Home" />
       <div className="lg:mx-40">
-        <div className="flex flex-col justify-center">
-          <h2>List of products</h2>
+        <div className="flex justify-center">
+          <div>
+            <div>Brand</div>
+            <div>Price range</div>
+            <div>Availability</div>
+          </div>
           <div className="flex flex-wrap justify-center">
             {data.payload.products.map((product) => (
               <ProductCard key={product._id} product={product} />
