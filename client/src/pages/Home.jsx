@@ -12,7 +12,7 @@ const Home = () => {
       <PageTitle title="Home" />
       <div className="lg:mx-40">
         <div className="flex justify-center">
-          <div>
+          <div className="w-fit h-fit py-8 px-4 bg-white ">
             <div>Brand</div>
             <div>Price range</div>
             <div>Availability</div>
