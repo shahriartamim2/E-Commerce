@@ -24,20 +24,10 @@ const Home = () => {
           <div className="w-fit h-fit py-8 px-4 bg-white my-2 rounded-lg ">
             <label>Category:</label>
             <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn m-1">
-                Click^
+              <div  className="btn m-1">
+                {category || "Select Category"}
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-              >
-                <li>
-                  <a >Apple</a>
-                </li>
-                <li>
-                  <a >Samsung</a>
-                </li>
-              </ul>
+              
             </div>
             <div className="flex flex-wrap">
               <label>Min Price:</label>
